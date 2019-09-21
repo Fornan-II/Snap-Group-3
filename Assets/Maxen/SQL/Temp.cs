@@ -13,6 +13,8 @@ public class Temp : MonoBehaviour
         public int VAL;
     }
 
+    protected const string DBPath = "Assets/Maxen/SQL";
+
     static SqliteConnection sqlite_conn;
 
     public List<TableItem> items;
@@ -20,10 +22,9 @@ public class Temp : MonoBehaviour
 
     static SqliteConnection CreateConnection()
     {
-
         SqliteConnection sqlite_conn;
         // Create a new database connection:
-        sqlite_conn = new SqliteConnection("Data Source=database.db; Version = 3; New = True; Compress = True; ");
+        sqlite_conn = new SqliteConnection("Data Source=" + DBPath + "/testDatabase.db; Version = 3; Compress = True; ");
         // Open the connection:
         try
         {
@@ -31,7 +32,7 @@ public class Temp : MonoBehaviour
         }
         catch (Exception ex)
         {
-            Debug.LogWarning(ex.Message);
+            MSGDisplay.AppendMsg("CreateConnection fail:\n" + ex.Message);
         }
         return sqlite_conn;
     }
@@ -51,6 +52,21 @@ public class Temp : MonoBehaviour
             ReadData();
             readDB = false;
         }
+
+        if(Input.GetMouseButtonDown(0))
+        {
+            Camera mainCam = Camera.main;
+            Collider myCol = GetComponent<Collider>();
+            if(myCol.Raycast(mainCam.ScreenPointToRay(Input.mousePosition), out RaycastHit hitInfo, Mathf.Infinity))
+            {
+                ReadData();
+                MSGDisplay.ClearMsg();
+                foreach(TableItem item in items)
+                {
+                    MSGDisplay.AppendMsg(item.MSG + " | " + item.VAL);
+                }
+            }
+        }
     }
 
     static void CreateTable(SqliteConnection conn)
@@ -68,7 +84,7 @@ public class Temp : MonoBehaviour
         }
         catch(Exception ex)
         {
-            Debug.LogWarning(ex.Message);
+            MSGDisplay.AppendMsg("CreateTable fail:\n" + ex.Message);
         }
     }
 
