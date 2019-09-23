@@ -39,6 +39,8 @@ public class CharacterInformation : MonoBehaviour
                 _celebrityName = _info.Name;
             }
         }
+
+        _namePrevious = _celebrityName;
     }
 #endif
 }

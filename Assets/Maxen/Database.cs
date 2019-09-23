@@ -301,7 +301,7 @@ public static class Database
         try
         {
             SqliteCommand command = _activeConnection.CreateCommand();
-            command.CommandText = "UPDATE Celebrities SET name " + existingChar.Name + " WHERE celeb_id = " + existingChar.CharID + ";";
+            command.CommandText = "UPDATE Celebrities SET name = \'" + existingChar.Name + "\' WHERE celeb_id = " + existingChar.CharID + ";";
             command.ExecuteNonQuery();
             success = true;
 
