@@ -9,9 +9,16 @@ public class MouseLook : MonoBehaviour
     private float rotX;
     private float rotY;
 
+    public float zoomSpeed;
+    public float fovMin;
+    public float fovMax;
+
+    private Camera myCamera;
+
     private void Start()
     {
         Cursor.visible = false;
+        myCamera = GetComponent<Camera>();
     }
 
     void Update()
@@ -28,5 +35,17 @@ public class MouseLook : MonoBehaviour
 
         // move
         transform.eulerAngles = new Vector3(rotY, rotX, 0);
+
+
+        if (Input.GetAxis("Mouse ScrollWheel") < 0)
+        {
+            myCamera.fieldOfView += zoomSpeed;
+        }
+        if (Input.GetAxis("Mouse ScrollWheel") > 0)
+        {
+            myCamera.fieldOfView -= zoomSpeed;
+        }
+        myCamera.fieldOfView = Mathf.Clamp(myCamera.fieldOfView, fovMin, fovMax);
+
     }
 }
