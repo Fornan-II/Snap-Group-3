@@ -12,10 +12,10 @@ public class PlayerController : MonoBehaviour
     float speed = 5f;
 
     [SerializeField]
-    bool isCircular;
+    public bool isCircular;
 
     [SerializeField]
-    bool inReverse = true;
+    public bool inReverse = true;
 
     private Waypoints currentWaypoint;
     private int currentIndex = 0;
