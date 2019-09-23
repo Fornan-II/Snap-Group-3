@@ -11,14 +11,15 @@ public class Photo
     //Image loaded in from file path. Set in LoadImage()
     public Texture2D Image;
     //A list of all celebrities in this photo.
-    public CharacterInformation.Character[] CelebritiesInPhoto;
+    public List<CharacterInformation.Character> CelebritiesInPhoto;
     //Which game number this picture was taken from. Useful for organazing pictures by which round they were taken in.
     public int RoundTakenDuring;
 
-    public Photo(string filePath)
+    public Photo(string filePath, int roundNumber)
     {
         Path = filePath;
-        CelebritiesInPhoto = new CharacterInformation.Character[0];
+        CelebritiesInPhoto = new List<CharacterInformation.Character>();
+        RoundTakenDuring = roundNumber;
     }
 
     public bool LoadImage()
