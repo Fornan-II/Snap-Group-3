@@ -43,6 +43,7 @@ public class Temp : MonoBehaviour
         sqlite_conn = CreateConnection();
         CreateTable(sqlite_conn);
         InsertData(sqlite_conn);
+        sqlite_conn.Close();
     }
 
     private void Update()
@@ -107,6 +108,8 @@ public class Temp : MonoBehaviour
 
     void ReadData()
     {
+        sqlite_conn.Open();
+
         SqliteDataReader sqlite_datareader;
         SqliteCommand sqlite_cmd;
         sqlite_cmd = sqlite_conn.CreateCommand();
@@ -121,5 +124,8 @@ public class Temp : MonoBehaviour
             int value = sqlite_datareader.GetInt32(1);
             items.Add(new TableItem { MSG = myreader, VAL = value });
         }
+
+        sqlite_conn.Close();
+
     }
 }
