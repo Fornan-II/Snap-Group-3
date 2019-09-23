@@ -289,6 +289,32 @@ public static class Database
     }
     #endregion
 
+    #region Update Database
+    public static bool UpdateCharacter(CharacterInformation.Character existingChar)
+    {
+        if (_activeConnection == null)
+        {
+            _activeConnection = CreateConnection();
+        }
+
+        bool success = false;
+        try
+        {
+            SqliteCommand command = _activeConnection.CreateCommand();
+            command.CommandText = "UPDATE Celebrities SET name " + existingChar.Name + " WHERE celeb_id = " + existingChar.CharID + ";";
+            command.ExecuteNonQuery();
+            success = true;
+
+            EndConnection();
+        }
+        catch (Exception ex)
+        {
+            Debug.LogWarning("Error updating character " + existingChar.Name + ": " + ex.Message);
+        }
+        return success;
+    }
+    #endregion
+
     #region Delete from Database
     public static bool DeleteCharacter(CharacterInformation.Character existingChar)
     {

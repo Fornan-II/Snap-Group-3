@@ -11,16 +11,34 @@ public class CharacterInformation : MonoBehaviour
         public string Name;
     }
 
+    protected Character _info;
 
-    // Start is called before the first frame update
-    void Start()
+    public Character GetInfo()
     {
-        
+        return _info;
     }
+    
+    //Useful for later:
+    //Random.InitState(_info.CharID);
 
-    // Update is called once per frame
-    void Update()
+#if UNITY_EDITOR
+    [SerializeField] private string _celebrityName;
+    private string _namePrevious;
+
+    protected virtual void OnValidate()
     {
-        
+        if(_celebrityName != _info.Name)
+        {
+            if(_celebrityName != _namePrevious)
+            {
+                _info.Name = _celebrityName;
+                Database.UpdateCharacter(_info);
+            }
+            else
+            {
+                _celebrityName = _info.Name;
+            }
+        }
     }
+#endif
 }
