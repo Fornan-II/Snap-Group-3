@@ -38,9 +38,9 @@ public static class Database
         {
             SqliteCommand command;
             command = _activeConnection.CreateCommand();
-            command.CommandText = "CREATE TABLE Celebrities(Col1 INT, Col2 VARCHAR(20))";
+            command.CommandText = "CREATE TABLE Celebrities(celeb_id INT, name VARCHAR(20))";
             command.ExecuteNonQuery();
-            command.CommandText = "CREATE TABLE Photos(Col1 VARCHAR(20), Col2 INT, Col3 INT)";
+            command.CommandText = "CREATE TABLE Photos(img_path VARCHAR(20), celeb_id INT, round_number INT)";
             command.ExecuteNonQuery();
             Debug.Log("Tables created successfully");
         }
@@ -49,47 +49,40 @@ public static class Database
             Debug.LogWarning("Error creating tables: " + ex.Message);
         }
 
-        _activeConnection.Close();
-        _activeConnection = null;
+        EndConnection();
     }
 
     [UnityEditor.MenuItem("Database/Log All Celebrities")]
     private static void LogAllCelebrities()
     {
-        if (_activeConnection == null)
+        string msg = "Celebrities: {";
+        CharacterInformation.Character[] allCelebs = GetAllCharacters();
+        foreach (CharacterInformation.Character celeb in allCelebs)
         {
-            _activeConnection = CreateConnection();
+            msg += "\n\tID: \"" + celeb.CharID + "\", Name: \"" + celeb.Name + "\"";
         }
-
-        try
-        {
-            SqliteDataReader dataReader;
-            SqliteCommand command;
-            command = _activeConnection.CreateCommand();
-            command.CommandText = "SELECT * FROM Celebrities";
-
-            dataReader = command.ExecuteReader();
-
-            string msg = "Celebrities: {";
-            while(dataReader.Read())
-            {
-                CharacterInformation.Character dbChar = new CharacterInformation.Character { CharID = dataReader.GetInt32(0), Name = dataReader.GetString(1) };
-                msg += "\n\tID: \"" + dbChar.CharID + "\", Name: \"" + dbChar.Name + "\"";
-            }
-            msg += "\n}";
-            Debug.Log(msg);
-
-            _activeConnection.Close();
-            _activeConnection = null;
-        }
-        catch(Exception ex)
-        {
-            Debug.LogWarning("Error logging celebrities: " + ex.Message);
-        }
+        msg += "\n}";
+        Debug.Log(msg);
     }
 
     [UnityEditor.MenuItem("Database/Log All Photos")]
     private static void LogAllPhotos()
+    {
+        string msg = "Photos: {";
+        foreach (Photo p in GetAllPhotos())
+        {
+            msg += "\n\timgPath: \"" + p.Path + "\", Round #: \"" + p.RoundTakenDuring + "\", Celebrities: {";
+            foreach (CharacterInformation.Character celeb in p.CelebritiesInPhoto)
+            {
+                msg += "\n\t\tID: \"" + celeb.CharID + "\", Name: \"" + celeb.Name + "\"";
+            }
+        }
+        msg += "\n\t}\n}";
+        Debug.Log(msg);
+    }
+
+    [UnityEditor.MenuItem("Database/Dangerous/Drop Database")]
+    private static void DropDataBase()
     {
         if (_activeConnection == null)
         {
@@ -98,34 +91,72 @@ public static class Database
 
         try
         {
-            SqliteDataReader dataReader;
             SqliteCommand command;
             command = _activeConnection.CreateCommand();
-            command.CommandText = "SELECT * FROM Photos";
+            command.CommandText = "DROP DATABASE";
+            command.ExecuteNonQuery();
 
-            dataReader = command.ExecuteReader();
+            EndConnection();
 
-            string msg = "Photos: {";
-            while (dataReader.Read())
-            {
-                string path = dataReader.GetString(0);
-                int charID = dataReader.GetInt32(1);
-                int roundNum = dataReader.GetInt32(2);
-                msg += "\n\timgPath: \"" + path + "\", charID: \"" + charID + "\", Round #: \"" + roundNum + "\"";
-            }
-            msg += "\n}";
-            Debug.Log(msg);
-
-            _activeConnection.Close();
-            _activeConnection = null;
+            Debug.Log("Database dropped");
         }
         catch (Exception ex)
         {
-            Debug.LogWarning("Error logging celebrities: " + ex.Message);
+            Debug.LogWarning("Error dropping database: " + ex.Message);
+        }
+    }
+
+    [UnityEditor.MenuItem("Database/Dangerous/Empty Celebrity Table")]
+    private static void EmptyCelebrityTable()
+    {
+        if (_activeConnection == null)
+        {
+            _activeConnection = CreateConnection();
+        }
+        try
+        {
+            SqliteCommand command = _activeConnection.CreateCommand();
+            command.CommandText = "DELETE FROM Celebrities";
+            command.ExecuteNonQuery();
+
+            EndConnection();
+        }
+        catch (Exception ex)
+        {
+            Debug.LogWarning("Error emptying celebrity table: " + ex.Message);
+        }
+    }
+
+    [UnityEditor.MenuItem("Database/Dangerous/Empty Photo Table")]
+    private static void EmptyPhotoTable()
+    {
+        if (_activeConnection == null)
+        {
+            _activeConnection = CreateConnection();
+        }
+        try
+        {
+            SqliteCommand command = _activeConnection.CreateCommand();
+            command.CommandText = "DELETE FROM Photos";
+            command.ExecuteNonQuery();
+
+            EndConnection();
+        }
+        catch (Exception ex)
+        {
+            Debug.LogWarning("Error emptying celebrity table: " + ex.Message);
         }
     }
 #endif
 
+    [UnityEditor.MenuItem("Database/Close Connection")]
+    private static void EndConnection()
+    {
+        _activeConnection?.Close();
+        _activeConnection = null;
+    }
+
+    #region Add to database
     public static bool AddCharacter(CharacterInformation.Character newChar)
     {
         if(_activeConnection == null)
@@ -137,13 +168,15 @@ public static class Database
         try
         {
             SqliteCommand command = _activeConnection.CreateCommand();
-            command.CommandText = "INSERT INTO Celebrities(Col1, Col2) VALUES(" + newChar.CharID + ", '" + newChar.Name + "');";
+            command.CommandText = "INSERT INTO Celebrities(celeb_id, name) VALUES(" + newChar.CharID + ", '" + newChar.Name + "');";
             command.ExecuteNonQuery();
             success = true;
+
+            EndConnection();
         }
         catch(Exception ex)
         {
-            Debug.LogWarning(ex.Message);
+            Debug.LogWarning("Error inserting character " + newChar.Name + ": " + ex.Message);
         }
         return success;
     }
@@ -161,15 +194,148 @@ public static class Database
             SqliteCommand command = _activeConnection.CreateCommand();
             foreach (CharacterInformation.Character celebrity in newPhoto.CelebritiesInPhoto)
             {
-                command.CommandText = "INSERT INTO Photos(Col1, Col2, Col3) VALUES('" + newPhoto.Path + "', " + celebrity.CharID + ", " + newPhoto.RoundTakenDuring + ");";
+                command.CommandText = "INSERT INTO Photos(img_path, celeb_id, round_number) VALUES('" + newPhoto.Path + "', " + celebrity.CharID + ", " + newPhoto.RoundTakenDuring + ");";
                 command.ExecuteNonQuery();
             }
             success = true;
+
+            EndConnection();
         }
         catch (Exception ex)
         {
-            Debug.LogWarning(ex.Message);
+            Debug.LogWarning("Error inserting photo: " + ex.Message);
         }
         return success;
     }
+    #endregion
+
+    #region Get all from Database
+    public static CharacterInformation.Character[] GetAllCharacters()
+    {
+        if (_activeConnection == null)
+        {
+            _activeConnection = CreateConnection();
+        }
+
+        try
+        {
+            SqliteDataReader dataReader;
+            SqliteCommand command;
+            command = _activeConnection.CreateCommand();
+            command.CommandText = "SELECT * FROM Celebrities";
+
+            dataReader = command.ExecuteReader();
+
+            List<CharacterInformation.Character> allCelebs = new List<CharacterInformation.Character>();
+            while (dataReader.Read())
+            {
+                allCelebs.Add(new CharacterInformation.Character { CharID = dataReader.GetInt32(0), Name = dataReader.GetString(1) });
+            }
+
+            EndConnection();
+
+            return allCelebs.ToArray();
+        }
+        catch (Exception ex)
+        {
+            Debug.LogWarning("Error getting all celebrities: " + ex.Message);
+            return null;
+        }
+    }
+    
+    public static Photo[] GetAllPhotos()
+    {
+        if (_activeConnection == null)
+        {
+            _activeConnection = CreateConnection();
+        }
+
+        try
+        {
+            SqliteDataReader dataReader;
+            SqliteCommand command;
+            command = _activeConnection.CreateCommand();
+            command.CommandText = "SELECT P.img_path, P.round_number, P.celeb_id, (SELECT C.name FROM Celebrities C WHERE C.celeb_id = P.celeb_id) FROM Photos P";
+
+            dataReader = command.ExecuteReader();
+
+            Dictionary<string, Photo> photoDict = new Dictionary<string, Photo>();
+            while (dataReader.Read())
+            {
+                string photoPath = dataReader.GetString(0);
+                if (photoDict.ContainsKey(photoPath))
+                {
+                    photoDict[photoPath].CelebritiesInPhoto.Add(new CharacterInformation.Character { CharID = dataReader.GetInt32(2), Name = dataReader.GetString(3) });
+                }
+                else
+                {
+                    Photo newPhoto = new Photo(photoPath, dataReader.GetInt32(1));
+                    newPhoto.CelebritiesInPhoto.Add(new CharacterInformation.Character { CharID = dataReader.GetInt32(2), Name = dataReader.GetString(3) });
+                    photoDict.Add(photoPath, newPhoto);
+                }
+            }
+
+            EndConnection();
+
+            Photo[] allPhotos = new Photo[photoDict.Count];
+            photoDict.Values.CopyTo(allPhotos, 0);
+            return allPhotos;
+        }
+        catch (Exception ex)
+        {
+            Debug.LogWarning("Error getting all celebrities: " + ex.Message);
+            return null;
+        }
+    }
+    #endregion
+
+    #region Delete from Database
+    public static bool DeleteCharacter(CharacterInformation.Character existingChar)
+    {
+        if (_activeConnection == null)
+        {
+            _activeConnection = CreateConnection();
+        }
+
+        bool success = false;
+        try
+        {
+            SqliteCommand command = _activeConnection.CreateCommand();
+            command.CommandText = "DELETE FROM Celebrities WHERE celeb_id = '" + existingChar.CharID + "'";
+            command.ExecuteNonQuery();
+            success = true;
+
+            EndConnection();
+        }
+        catch (Exception ex)
+        {
+            Debug.LogWarning("Error deleting character " + existingChar.Name + ": " + ex.Message);
+        }
+        return success;
+    }
+
+    public static bool DeletePhoto(string photoPath)
+    {
+        if (_activeConnection == null)
+        {
+            _activeConnection = CreateConnection();
+        }
+
+        bool success = false;
+        try
+        {
+            SqliteCommand command = _activeConnection.CreateCommand();
+            command.CommandText = "DELETE FROM Photos WHERE img_path = '" + photoPath + "'";
+            command.ExecuteNonQuery();
+            success = true;
+
+            EndConnection();
+        }
+        catch (Exception ex)
+        {
+            Debug.LogWarning("Error deleting photo \"" + photoPath + "\": " + ex.Message);
+        }
+        return success;
+    }
+    #endregion
 }
