@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CharacterInformation : MonoBehaviour
 {
+    [System.Serializable]
     public struct Character
     {
         public int CharID;
