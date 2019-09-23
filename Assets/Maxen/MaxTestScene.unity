@@ -509,7 +509,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CelebsToAdd: []
   AddCelebs: 0
-  PhotosToAdd: []
+  PhotosToAdd:
+  - Path: Assets/screenshots/screen_19
+    Image: {fileID: 0}
+    CelebritiesInPhoto:
+    - CharID: 0
+      Name: 
+    RoundTakenDuring: 0
+  - Path: Assets/screenshots/screen_20
+    Image: {fileID: 0}
+    CelebritiesInPhoto:
+    - CharID: 1
+      Name: 
+    RoundTakenDuring: 1
+  - Path: Assets/screenshots/screen_17
+    Image: {fileID: 0}
+    CelebritiesInPhoto:
+    - CharID: 1
+      Name: boop
+    - CharID: 0
+      Name: beep
+    RoundTakenDuring: 1
   AddPhotos: 0
 --- !u!65 &725787269
 BoxCollider:

@@ -87,6 +87,43 @@ public static class Database
             Debug.LogWarning("Error logging celebrities: " + ex.Message);
         }
     }
+
+    [UnityEditor.MenuItem("Database/Log All Photos")]
+    private static void LogAllPhotos()
+    {
+        if (_activeConnection == null)
+        {
+            _activeConnection = CreateConnection();
+        }
+
+        try
+        {
+            SqliteDataReader dataReader;
+            SqliteCommand command;
+            command = _activeConnection.CreateCommand();
+            command.CommandText = "SELECT * FROM Photos";
+
+            dataReader = command.ExecuteReader();
+
+            string msg = "Photos: {";
+            while (dataReader.Read())
+            {
+                string path = dataReader.GetString(0);
+                int charID = dataReader.GetInt32(1);
+                int roundNum = dataReader.GetInt32(2);
+                msg += "\n\timgPath: \"" + path + "\", charID: \"" + charID + "\", Round #: \"" + roundNum + "\"";
+            }
+            msg += "\n}";
+            Debug.Log(msg);
+
+            _activeConnection.Close();
+            _activeConnection = null;
+        }
+        catch (Exception ex)
+        {
+            Debug.LogWarning("Error logging celebrities: " + ex.Message);
+        }
+    }
 #endif
 
     public static bool AddCharacter(CharacterInformation.Character newChar)
@@ -122,9 +159,9 @@ public static class Database
         try
         {
             SqliteCommand command = _activeConnection.CreateCommand();
-            foreach (CharacterInformation.Character celebrity in newPhoto.celebritiesInPhoto)
+            foreach (CharacterInformation.Character celebrity in newPhoto.CelebritiesInPhoto)
             {
-                command.CommandText = "INSERT INTO Photos(Col1, Col2, Col3) VALUES('" + newPhoto.path + "', " + celebrity.CharID + ", " + newPhoto.roundTakenDuring + ");";
+                command.CommandText = "INSERT INTO Photos(Col1, Col2, Col3) VALUES('" + newPhoto.Path + "', " + celebrity.CharID + ", " + newPhoto.RoundTakenDuring + ");";
                 command.ExecuteNonQuery();
             }
             success = true;
