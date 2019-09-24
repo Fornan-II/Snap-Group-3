@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     void Awake()
     {
-        if(Instance)
+        if (Instance)
         {
             Destroy(gameObject);
         }
@@ -26,10 +26,10 @@ public class GameManager : MonoBehaviour
         get
         {
             //If game number not set...
-            if(_gameNumber <= 0)
+            if (_gameNumber <= 0)
             {
                 //Find highest game number in database...
-                foreach(Photo p in Database.GetAllPhotos())
+                foreach (Photo p in Database.GetAllPhotos())
                 {
                     _gameNumber = Mathf.Max(p.RoundTakenDuring, _gameNumber);
                 }
@@ -43,8 +43,10 @@ public class GameManager : MonoBehaviour
 
     public List<Photo> PhotosThisRound = new List<Photo>();
 
+    [SerializeField] protected PlayerController _player;
+    [SerializeField] protected int NumberOfCelebsPerRound = 3;
     [SerializeField] protected int CurrentTargetIndex = 0;
-    public List<CharacterInformation.Character> CelebTargets;
+    public List<CharacterInformation.Character> CelebTargets = new List<CharacterInformation.Character>();
 
     public void RegisterPhoto(string path, List<CharacterInformation.Character> celebritiesInPhoto)
     {
@@ -52,7 +54,22 @@ public class GameManager : MonoBehaviour
         newPhoto.CelebritiesInPhoto = celebritiesInPhoto;
         PhotosThisRound.Add(newPhoto);
 
-        //Need some way to track which waypoint each phot was taken at.
+        //Need some way to track which waypoint each photo was taken at.
         //For the purposes of only one photo per celeb per waypoint
+    }
+
+    public void InitGameRound()
+    {
+        List<CharacterInformation.Character> allCelebs = new List<CharacterInformation.Character>(Database.GetAllCharacters());
+        CelebTargets.Clear();
+        for(int counter = 0; counter < NumberOfCelebsPerRound; counter++)
+        {
+            int selectedIndex = Random.Range(0, allCelebs.Count);
+            CelebTargets.Add(allCelebs[selectedIndex]);
+            allCelebs.RemoveAt(selectedIndex);
+        }
+
+        //Get player waypoints, and get their associated characters.
+        //Pick characters at that waypoint to assign celeb to
     }
 }

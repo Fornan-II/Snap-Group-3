@@ -9,12 +9,15 @@ public class CharacterInformation : MonoBehaviour
     {
         public int CharID;
         public string Name;
+
+        public static Character Empty = new Character { CharID = -1, Name = "Random" };
     }
 
     protected Character _info;
 
     public Character GetInfo()
     {
+        //return Character.Empty;
         return _info;
     }
     
