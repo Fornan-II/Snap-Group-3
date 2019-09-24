@@ -608,7 +608,7 @@ MonoBehaviour:
   m_LayerMask:
     serializedVersion: 2
     m_Bits: 256
-  collider: {x: 5, y: 2, z: 40}
+  collider: {x: 12, y: 6, z: 40}
 --- !u!114 &1607231906
 MonoBehaviour:
   m_ObjectHideFlags: 0

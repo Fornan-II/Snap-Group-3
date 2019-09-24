@@ -14,7 +14,7 @@ public class SnapShot : MonoBehaviour
     bool m_Started;
     public LayerMask m_LayerMask;
 
-    public Vector3 collider;
+    public new Vector3 collider;
 
     void Start()
     {
@@ -40,9 +40,9 @@ public class SnapShot : MonoBehaviour
 
     }
 
-    public bool MyCollisions()
+    public bool CelebPictureCollisions()
     {
-        Collider[] hitColliders = Physics.OverlapBox(new Vector3(transform.position.x, transform.position.y, transform.position.z + (collider.z / 2)), collider, Quaternion.identity, m_LayerMask);
+        Collider[] hitColliders = Physics.OverlapBox(new Vector3(transform.position.x, transform.position.y, transform.position.z + (collider.z / 1.25f)), collider, transform.localRotation, m_LayerMask);
         int i = 0;
         //Check when there is a new collider coming into contact with the box
         while (i < hitColliders.Length)
@@ -59,6 +59,7 @@ public class SnapShot : MonoBehaviour
             {
                 if (c.GetComponent<CelebVisible>().isVisibile == true)
                 {
+                    // check more variables from characterinfo
                     return true;
                 }
             }
@@ -69,11 +70,12 @@ public class SnapShot : MonoBehaviour
 
     void OnDrawGizmos()
     {
+        Gizmos.matrix = this.transform.localToWorldMatrix;
         Gizmos.color = Color.red;
         //Check that it is being run in Play Mode, so it doesn't try to draw this in Editor mode
         if (m_Started)
             //Draw a cube where the OverlapBox is (positioned where your GameObject is as well as a size)
-            Gizmos.DrawWireCube(new Vector3(transform.position.x, transform.position.y, transform.position.z + (collider.z / 2)), collider);
+            Gizmos.DrawCube(new Vector3(transform.position.x, transform.position.y, transform.position.z + (collider.z/1.25f)), collider);
     }
 
     void LateUpdate()
@@ -82,7 +84,7 @@ public class SnapShot : MonoBehaviour
         if (takeHiResShot)
         {
             // is the celeb in the shot
-            if (MyCollisions() == true)
+            if (CelebPictureCollisions() == true)
             {
                 Debug.Log("Celeb Captured");
             }
@@ -98,7 +100,7 @@ public class SnapShot : MonoBehaviour
             screenShot.ReadPixels(new Rect(0, 0, resWidth, resHeight), 0, 0);
             GetComponent<Camera>().targetTexture = null;
 
-            RenderTexture.active = null; // JC: added to avoid errors
+            RenderTexture.active = null; // added to avoid errors
 
             Destroy(rt);
 
