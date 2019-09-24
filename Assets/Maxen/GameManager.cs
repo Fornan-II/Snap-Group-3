@@ -56,6 +56,9 @@ public class GameManager : MonoBehaviour
 
         //Need some way to track which waypoint each photo was taken at.
         //For the purposes of only one photo per celeb per waypoint
+
+        //Most recent celeb photo is the one that is used
+        //Time limit to take pictures of celebs
     }
 
     public void InitGameRound()

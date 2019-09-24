@@ -13,7 +13,7 @@ public class CharacterInformation : MonoBehaviour
         public static Character Empty = new Character { CharID = -1, Name = "Random" };
     }
 
-    protected Character _info;
+    protected Character _info = Character.Empty;
 
     public Character GetInfo()
     {
@@ -30,7 +30,7 @@ public class CharacterInformation : MonoBehaviour
 
     protected virtual void OnValidate()
     {
-        if(_celebrityName != _info.Name)
+        if(_celebrityName != _info.Name && _info.CharID >= 0)
         {
             if(_celebrityName != _namePrevious)
             {
