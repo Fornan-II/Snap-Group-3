@@ -22,6 +22,11 @@ public class PlayerController : MonoBehaviour
     private bool isWaiting = false;
     private float speedStorage = 0;
 
+    // Event stuff that fires off when a waypoint is reached.
+    // Useful for things like GameManager
+    public delegate void WaypointReachedDelegate();
+    public event WaypointReachedDelegate OnWaypointReached;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -88,6 +93,9 @@ public class PlayerController : MonoBehaviour
                 speedStorage = 0;
             }
             NextWaypoint();
+
+            //Sends out event to listeners when waypoint is reached.
+            OnWaypointReached?.Invoke();
         }
     }
 
