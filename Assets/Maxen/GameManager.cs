@@ -91,18 +91,32 @@ public class GameManager : MonoBehaviour
 
         //Record index of PhotosThisRound with their associated celebrities
         int counter = 0;
-        foreach(CharacterInformation celeb in CelebTargets.Keys)
+        //foreach(CharacterInformation celeb in CelebTargets.Keys)
+        CharacterInformation[] celebsInScene = new CharacterInformation[CelebTargets.Keys.Count];
+        CelebTargets.Keys.CopyTo(celebsInScene, 0);
+        for(int i = 0; i < celebsInScene.Length; i++)
         {
-            CharacterInformation.Character celebChar = celeb.GetInfo();
-            if(newPhoto.CelebritiesInPhoto.Contains(celebChar))
+            CharacterInformation.Character celebChar = celebsInScene[i].GetInfo();
+            if (newPhoto.CelebritiesInPhoto.Contains(celebChar))
             {
-                CelebTargets[celeb] = newPhoto.CelebritiesInPhoto.IndexOf(celebChar);
+                CelebTargets[celebsInScene[i]] = newPhoto.CelebritiesInPhoto.IndexOf(celebChar);
             }
 
             //TEMP tell player that they took a picture of that celeb
             IndicateCelebColors.SetCelebFound(counter);
             counter++;
         }
+        //{
+        //    CharacterInformation.Character celebChar = celeb.GetInfo();
+        //    if(newPhoto.CelebritiesInPhoto.Contains(celebChar))
+        //    {
+        //        CelebTargets[celeb] = newPhoto.CelebritiesInPhoto.IndexOf(celebChar);
+        //    }
+
+        //    //TEMP tell player that they took a picture of that celeb
+        //    IndicateCelebColors.SetCelebFound(counter);
+        //    counter++;
+        //}
         PhotosThisRound.Add(newPhoto);
     }
 
