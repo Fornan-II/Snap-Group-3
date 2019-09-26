@@ -11,9 +11,9 @@ public class Photo
     //Image loaded in from file path. Set in LoadImage()
     public Texture2D Image;
     //A list of all celebrities in this photo.
-    public List<CharacterInformation.Character> CelebritiesInPhoto;
+    public List<CharacterInformation.Character> CelebritiesInPhoto = new List<CharacterInformation.Character>();
     //Which game number this picture was taken from. Useful for organazing pictures by which round they were taken in.
-    public int RoundTakenDuring;
+    public int RoundTakenDuring = -1;
 
     public Photo(string filePath, int roundNumber)
     {
@@ -27,5 +27,13 @@ public class Photo
         // Load screenshot file at path.
         // Return false if this fails for some reason (ex: file does not exist)
         return false;
+    }
+
+    public void Discard()
+    {
+        //Deletes image file at path
+        Image = null;
+        CelebritiesInPhoto = new List<CharacterInformation.Character>();
+        RoundTakenDuring = -1;
     }
 }
