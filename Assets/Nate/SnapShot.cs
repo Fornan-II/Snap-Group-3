@@ -16,7 +16,7 @@ public class SnapShot : MonoBehaviour
 
     public new Vector3 collider;
 
-    List<CharacterInformation.Character> characters;
+    List<CharacterInformation.Character> characters = new List<CharacterInformation.Character>();
 
     void Start()
     {
@@ -51,14 +51,14 @@ public class SnapShot : MonoBehaviour
                     CharacterInformation instance = c.GetComponent<CharacterInformation>();
                     if (instance == null)
                         return false;
-                    if (instance.GetInfo().CharID < 0)
+                    if (instance.GetInfo().CharID >= 0)
                     {
                         // get celeb name 
                         string celebName = instance.GetInfo().Name; 
                         Debug.Log("You photographed " + celebName);
 
                         // add the character to the list of celebs in picture
-                        characters.Add(c.GetComponent<CharacterInformation.Character>());
+                        characters.Add(instance.GetInfo());
 
                         return true;
                     }   
