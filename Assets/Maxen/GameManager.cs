@@ -90,8 +90,6 @@ public class GameManager : MonoBehaviour
         newPhoto.CelebritiesInPhoto = celebritiesInPhoto;
 
         //Record index of PhotosThisRound with their associated celebrities
-        int counter = 0;
-        //foreach(CharacterInformation celeb in CelebTargets.Keys)
         CharacterInformation[] celebsInScene = new CharacterInformation[CelebTargets.Keys.Count];
         CelebTargets.Keys.CopyTo(celebsInScene, 0);
         for(int i = 0; i < celebsInScene.Length; i++)
@@ -100,28 +98,19 @@ public class GameManager : MonoBehaviour
             if (newPhoto.CelebritiesInPhoto.Contains(celebChar))
             {
                 CelebTargets[celebsInScene[i]] = newPhoto.CelebritiesInPhoto.IndexOf(celebChar);
+                //TEMP tell player that they took a picture of that celeb
+                IndicateCelebColors.SetCelebFound(i);
             }
-
-            //TEMP tell player that they took a picture of that celeb
-            IndicateCelebColors.SetCelebFound(counter);
-            counter++;
         }
-        //{
-        //    CharacterInformation.Character celebChar = celeb.GetInfo();
-        //    if(newPhoto.CelebritiesInPhoto.Contains(celebChar))
-        //    {
-        //        CelebTargets[celeb] = newPhoto.CelebritiesInPhoto.IndexOf(celebChar);
-        //    }
-
-        //    //TEMP tell player that they took a picture of that celeb
-        //    IndicateCelebColors.SetCelebFound(counter);
-        //    counter++;
-        //}
         PhotosThisRound.Add(newPhoto);
     }
 
     public void InitGameRound()
     {
+        //Mouse stuffs
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
         //Reset important things.
         AvailableCharFeatures = _AllCharFeatures;
         CelebTargets.Clear();
@@ -168,6 +157,10 @@ public class GameManager : MonoBehaviour
 
     public void EndGameRound()
     {
+        //Mouse stuffs
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
         //Get final photos
         Photo[] finalPhotos = GetFinalCelebPhotos();
         //Show 'em to the player

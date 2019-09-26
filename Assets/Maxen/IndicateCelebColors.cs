@@ -27,6 +27,6 @@ public class IndicateCelebColors : MonoBehaviour
 
     public static void SetCelebFound(int CelebNumber)
     {
-        Instance.CelebColorIndicator[CelebNumber].enabled = true;
+        Instance.CelebConfirmationIndicator[CelebNumber].gameObject.SetActive(true);
     }
 }
