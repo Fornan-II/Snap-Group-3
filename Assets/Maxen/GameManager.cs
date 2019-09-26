@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour
         new CharFeature() {BodyColor = Color.red},
         new CharFeature() {BodyColor = Color.blue},
         new CharFeature() {BodyColor = Color.green},
-        new CharFeature() {BodyColor = Color.green},
+        new CharFeature() {BodyColor = Color.gray},
         new CharFeature() {BodyColor = Color.magenta},
         new CharFeature() {BodyColor = Color.yellow}
     };
@@ -122,8 +122,15 @@ public class GameManager : MonoBehaviour
             //Select random character from scene to make become this celeb
             int selectedCharacterIndex = Random.Range(0, allCharacters.Count);
             allCharacters[selectedCharacterIndex].AssignCharacter(allCelebs[selectedCelebIndex]);
+            //Debug.Log(allCharacters[selectedCelebIndex])
             //Let selected char pick some identifying features
             allCharacters[selectedCharacterIndex].GenerateFeatures();
+            //TEMP assign char to UI
+            SpriteRenderer sr = allCharacters[selectedCharacterIndex].GetComponent<SpriteRenderer>();
+            if(sr)
+            {
+                IndicateCelebColors.SetCelebColor(counter, sr.color);
+            }
             
             //record that this celeb is a target this round, then remove them from the pools of potentially picked celebs and characters.
             CelebTargets.Add(allCharacters[selectedCharacterIndex], -1);

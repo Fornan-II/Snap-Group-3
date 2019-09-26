@@ -214,7 +214,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74e38d6d14c5eba439c0f40385a9a9cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitSeconds: 5
+  waitSeconds: 0
   speedOut: 0
 --- !u!65 &5375848828876130626
 BoxCollider:
@@ -273,7 +273,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74e38d6d14c5eba439c0f40385a9a9cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitSeconds: 5
+  waitSeconds: 0
   speedOut: 0
 --- !u!65 &5375848828914768938
 BoxCollider:
@@ -752,7 +752,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74e38d6d14c5eba439c0f40385a9a9cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitSeconds: 5
+  waitSeconds: 2
   speedOut: 0
 --- !u!65 &5375848828961296094
 BoxCollider:
@@ -1059,7 +1059,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74e38d6d14c5eba439c0f40385a9a9cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitSeconds: 5
+  waitSeconds: 2
   speedOut: 0
 --- !u!65 &5375848828998219163
 BoxCollider:
@@ -1508,7 +1508,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74e38d6d14c5eba439c0f40385a9a9cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitSeconds: 5
+  waitSeconds: 0
   speedOut: 0
 --- !u!65 &5375848829068486348
 BoxCollider:
@@ -1815,7 +1815,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74e38d6d14c5eba439c0f40385a9a9cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitSeconds: 5
+  waitSeconds: 0
   speedOut: 0
 --- !u!65 &5375848829090191543
 BoxCollider:
@@ -1952,7 +1952,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74e38d6d14c5eba439c0f40385a9a9cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitSeconds: 5
+  waitSeconds: 2
   speedOut: 0
 --- !u!65 &5375848829108277349
 BoxCollider:
@@ -2224,7 +2224,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74e38d6d14c5eba439c0f40385a9a9cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitSeconds: 5
+  waitSeconds: 2
   speedOut: 0
 --- !u!65 &5375848829176699340
 BoxCollider:
@@ -2623,7 +2623,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74e38d6d14c5eba439c0f40385a9a9cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitSeconds: 5
+  waitSeconds: 0
   speedOut: 0
 --- !u!65 &5375848829209924858
 BoxCollider:
@@ -3242,7 +3242,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74e38d6d14c5eba439c0f40385a9a9cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitSeconds: 5
+  waitSeconds: 2
   speedOut: 0
 --- !u!65 &5375848829273770239
 BoxCollider:
@@ -3934,7 +3934,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74e38d6d14c5eba439c0f40385a9a9cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitSeconds: 5
+  waitSeconds: 0
   speedOut: 0
 --- !u!65 &5375848829432615425
 BoxCollider:
@@ -4183,7 +4183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74e38d6d14c5eba439c0f40385a9a9cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitSeconds: 5
+  waitSeconds: 0
   speedOut: 0
 --- !u!65 &5375848829492687525
 BoxCollider:
@@ -5331,7 +5331,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74e38d6d14c5eba439c0f40385a9a9cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitSeconds: 5
+  waitSeconds: 0
   speedOut: 0
 --- !u!65 &5375848829699670841
 BoxCollider:
@@ -5780,7 +5780,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74e38d6d14c5eba439c0f40385a9a9cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitSeconds: 5
+  waitSeconds: 2
   speedOut: 0
 --- !u!65 &5375848829842928007
 BoxCollider:
@@ -6087,7 +6087,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74e38d6d14c5eba439c0f40385a9a9cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitSeconds: 5
+  waitSeconds: 0
   speedOut: 0
 --- !u!65 &5375848829860960883
 BoxCollider:
@@ -6812,7 +6812,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74e38d6d14c5eba439c0f40385a9a9cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitSeconds: 5
+  waitSeconds: 0
   speedOut: 0
 --- !u!65 &5375848829961085718
 BoxCollider:
@@ -7183,7 +7183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74e38d6d14c5eba439c0f40385a9a9cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitSeconds: 5
+  waitSeconds: 2
   speedOut: 0
 --- !u!65 &5375848830031965010
 BoxCollider:
@@ -7710,7 +7710,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74e38d6d14c5eba439c0f40385a9a9cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitSeconds: 5
+  waitSeconds: 2
   speedOut: 0
 --- !u!65 &5375848830125660599
 BoxCollider:
@@ -8081,7 +8081,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74e38d6d14c5eba439c0f40385a9a9cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitSeconds: 5
+  waitSeconds: 0
   speedOut: 0
 --- !u!65 &5375848830220471663
 BoxCollider:
@@ -8466,7 +8466,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74e38d6d14c5eba439c0f40385a9a9cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitSeconds: 5
+  waitSeconds: 2
   speedOut: 0
 --- !u!65 &5375848830377949187
 BoxCollider:
@@ -8787,7 +8787,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74e38d6d14c5eba439c0f40385a9a9cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitSeconds: 5
+  waitSeconds: 2
   speedOut: 0
 --- !u!65 &5375848830484546326
 BoxCollider:
@@ -9094,7 +9094,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74e38d6d14c5eba439c0f40385a9a9cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitSeconds: 5
+  waitSeconds: 2
   speedOut: 0
 --- !u!65 &5375848830543678955
 BoxCollider:
@@ -9465,7 +9465,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74e38d6d14c5eba439c0f40385a9a9cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitSeconds: 5
+  waitSeconds: 0
   speedOut: 0
 --- !u!65 &5375848830627958811
 BoxCollider:
@@ -10084,7 +10084,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74e38d6d14c5eba439c0f40385a9a9cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitSeconds: 5
+  waitSeconds: 0
   speedOut: 0
 --- !u!65 &5375848830737103901
 BoxCollider:
@@ -10639,7 +10639,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74e38d6d14c5eba439c0f40385a9a9cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitSeconds: 5
+  waitSeconds: 2
   speedOut: 0
 --- !u!65 &5375848830851580702
 BoxCollider:
@@ -11088,7 +11088,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74e38d6d14c5eba439c0f40385a9a9cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitSeconds: 5
+  waitSeconds: 0
   speedOut: 0
 --- !u!65 &5375848830903294371
 BoxCollider:

@@ -38,6 +38,12 @@ public class CharacterInformation : MonoBehaviour
             GameManager.Instance.AvailableCharFeatures.RemoveAt(ranIndex);
         }
 
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        if(sr)
+        {
+            sr.color = selectedFeature.BodyColor;
+        }
+
         //Useful for later:
         //Random.InitState(_info.CharID);
         //I'll use this for picking char color instead of having it be a CharFeature. CharFeature is supposed to be stuff like clothes.
