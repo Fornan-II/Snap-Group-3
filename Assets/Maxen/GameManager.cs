@@ -70,7 +70,7 @@ public class GameManager : MonoBehaviour
     //int Value represents the index in PhotosThisRound. Index is -1 if no photo has been taken
     public Dictionary<CharacterInformation, int> CelebTargets = new Dictionary<CharacterInformation, int>();
 
-    public UnityEvent<Photo[]> OnFinalPhotosSelected;
+    public PhotoArrayEvent OnFinalPhotosSelected;
 
     public CharacterInformation[] GetCelebCharacters()
     {
@@ -88,8 +88,9 @@ public class GameManager : MonoBehaviour
     {
         Photo newPhoto = new Photo(path, GameNumber);
         newPhoto.CelebritiesInPhoto = celebritiesInPhoto;
-        
+
         //Record index of PhotosThisRound with their associated celebrities
+        int counter = 0;
         foreach(CharacterInformation celeb in CelebTargets.Keys)
         {
             CharacterInformation.Character celebChar = celeb.GetInfo();
@@ -97,6 +98,10 @@ public class GameManager : MonoBehaviour
             {
                 CelebTargets[celeb] = newPhoto.CelebritiesInPhoto.IndexOf(celebChar);
             }
+
+            //TEMP tell player that they took a picture of that celeb
+            IndicateCelebColors.SetCelebFound(counter);
+            counter++;
         }
         PhotosThisRound.Add(newPhoto);
     }
@@ -152,7 +157,7 @@ public class GameManager : MonoBehaviour
         //Get final photos
         Photo[] finalPhotos = GetFinalCelebPhotos();
         //Show 'em to the player
-        OnFinalPhotosSelected.Invoke(finalPhotos);
+        OnFinalPhotosSelected?.Invoke(finalPhotos);
         //Push photos to database
         foreach(Photo p in finalPhotos)
         {
@@ -168,9 +173,12 @@ public class GameManager : MonoBehaviour
         List<Photo> photos = new List<Photo>();
         foreach(int photoIndex in CelebTargets.Values)
         {
-            if(!photos.Contains(PhotosThisRound[photoIndex]))
+            if (0 <= photoIndex && photoIndex < PhotosThisRound.Count)
             {
-                photos.Add(PhotosThisRound[photoIndex]);
+                if (!photos.Contains(PhotosThisRound[photoIndex]))
+                {
+                    photos.Add(PhotosThisRound[photoIndex]);
+                }
             }
         }
 
@@ -185,7 +193,7 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
 
-        while (!Input.GetButtonDown("Fire1"))
+        while (!Input.anyKey)
         {
             yield return null;
         }
@@ -193,3 +201,6 @@ public class GameManager : MonoBehaviour
         MenuManagement.GoToMainMenu();
     }
 }
+
+[System.Serializable]
+public class PhotoArrayEvent : UnityEvent<Photo[]> { }

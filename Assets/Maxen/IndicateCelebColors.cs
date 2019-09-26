@@ -5,7 +5,8 @@ using UnityEngine.UI;
 
 public class IndicateCelebColors : MonoBehaviour
 {
-    public Image[] CelebIndicator;
+    public Image[] CelebColorIndicator;
+    public Image[] CelebConfirmationIndicator;
 
     private static IndicateCelebColors Instance;
 
@@ -14,13 +15,18 @@ public class IndicateCelebColors : MonoBehaviour
         Instance = this;
     }
 
+    private void OnDestroy()
+    {
+        Instance = null;
+    }
+
     public static void SetCelebColor(int CelebNumber, Color CelebColor)
     {
-        Instance.CelebIndicator[CelebNumber].color = CelebColor;
+        Instance.CelebColorIndicator[CelebNumber].color = CelebColor;
     }
 
     public static void SetCelebFound(int CelebNumber)
     {
-        //Put a check box on it I guess
+        Instance.CelebColorIndicator[CelebNumber].enabled = true;
     }
 }

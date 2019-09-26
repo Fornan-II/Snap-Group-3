@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public static class MenuManagement
+public class MenuManagement : MonoBehaviour
 {
     private static int MenuScene = 0;
     private static int GameScene = 1;
@@ -16,5 +16,20 @@ public static class MenuManagement
     public static void GoToGame()
     {
         SceneManager.LoadScene(GameScene);
+    }
+
+    public void MainMenu()
+    {
+        GoToMainMenu();
+    }
+
+    public void Game()
+    {
+        GoToGame();
+    }
+
+    public void Quit()
+    {
+        Application.Quit();
     }
 }
