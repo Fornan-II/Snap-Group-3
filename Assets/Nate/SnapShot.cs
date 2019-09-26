@@ -36,12 +36,14 @@ public class SnapShot : MonoBehaviour
     {
         takeHiResShot = true;
     }
-    
+
     public bool CelebPictureCollisions()
     {
-        Collider[] hitColliders = Physics.OverlapBox(new Vector3(transform.position.x, transform.position.y, transform.position.z + (collider.z / 1.25f)), collider, transform.localRotation, m_LayerMask);
+        bool value = false;
 
-        foreach(Collider c in hitColliders)
+        Collider[] hitColliders = Physics.OverlapBox(new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z + (collider.z / 2f)), collider, transform.localRotation, m_LayerMask);
+
+        foreach (Collider c in hitColliders)
         {
             if (c.GetComponent<CelebVisible>() != null)
             {
@@ -54,20 +56,21 @@ public class SnapShot : MonoBehaviour
                     if (instance.GetInfo().CharID >= 0)
                     {
                         // get celeb name 
-                        string celebName = instance.GetInfo().Name; 
+                        string celebName = instance.GetInfo().Name;
                         Debug.Log("You photographed " + celebName);
 
                         // add the character to the list of celebs in picture
                         characters.Add(instance.GetInfo());
 
-                        return true;
-                    }   
+                        value = true;
+                    }
                 }
             }
         }
+        if (!value)
+            Debug.Log("no celeb found");
 
-        Debug.Log("no celeb found");
-        return false;
+        return value;
     }
 
     void OnDrawGizmos()
@@ -77,20 +80,15 @@ public class SnapShot : MonoBehaviour
         //Check that it is being run in Play Mode, so it doesn't try to draw this in Editor mode
         if (m_Started)
             //Draw a cube where the OverlapBox is (positioned where your GameObject is as well as a size)
-            Gizmos.DrawCube(new Vector3(transform.position.x, transform.position.y, transform.position.z + (collider.z/1.25f)), collider);
+            Gizmos.DrawCube(new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z + (collider.z / 2f)), collider);
     }
 
     void LateUpdate()
     {
-        takeHiResShot |= Input.GetKeyDown("k");
+        takeHiResShot |= Input.GetMouseButtonDown(0);
         if (takeHiResShot)
         {
-            // is the celeb in the shot
-            if (CelebPictureCollisions() == true)
-            {
-                Debug.Log("Celeb Captured");
-            }
-            // else if () add another function to look for past celebs 
+
 
             RenderTexture rt = new RenderTexture(resWidth, resHeight, 24);
             GetComponent<Camera>().targetTexture = rt;
@@ -113,8 +111,13 @@ public class SnapShot : MonoBehaviour
             Debug.Log(string.Format("Took screenshot to: {0}", filename));
             takeHiResShot = false;
 
-            // register photo 
-            GameManager.Instance.RegisterPhoto(filename, characters);
+            // is the celeb in the shot
+            if (CelebPictureCollisions() == true)
+            {
+                // register photo 
+                GameManager.Instance.RegisterPhoto(filename, characters);
+                Debug.Log("Celeb Captured");
+            }
         }
     }
 }

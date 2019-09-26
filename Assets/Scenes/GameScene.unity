@@ -2401,6 +2401,31 @@ PrefabInstance:
       propertyPath: speed
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 1253833910208236385, guid: cee20e665de9cf649812793f4181a3b1,
+        type: 3}
+      propertyPath: resWidth
+      value: 1920
+      objectReference: {fileID: 0}
+    - target: {fileID: 1253833910208236385, guid: cee20e665de9cf649812793f4181a3b1,
+        type: 3}
+      propertyPath: resHeight
+      value: 1080
+      objectReference: {fileID: 0}
+    - target: {fileID: 1253833910208236385, guid: cee20e665de9cf649812793f4181a3b1,
+        type: 3}
+      propertyPath: collider.x
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1253833910208236385, guid: cee20e665de9cf649812793f4181a3b1,
+        type: 3}
+      propertyPath: collider.y
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1253833910208236385, guid: cee20e665de9cf649812793f4181a3b1,
+        type: 3}
+      propertyPath: collider.z
+      value: 80
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cee20e665de9cf649812793f4181a3b1, type: 3}
 --- !u!4 &837304680 stripped
@@ -4882,11 +4907,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 8011562953297492929, guid: 8d009ae7ad40a5b499a6ef0801d0d854,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 5375848829441676580, guid: 8d009ae7ad40a5b499a6ef0801d0d854,
         type: 3}
       propertyPath: m_Name
@@ -4946,6 +4966,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8011562953297492929, guid: 8d009ae7ad40a5b499a6ef0801d0d854,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8d009ae7ad40a5b499a6ef0801d0d854, type: 3}
@@ -6092,7 +6117,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: Press any key to return to menu
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 0}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
