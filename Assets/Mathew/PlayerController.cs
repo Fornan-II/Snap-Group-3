@@ -43,6 +43,16 @@ public class PlayerController : MonoBehaviour
         {
             MoveTowardsWaypoint();
         }
+
+        if(Input.GetKeyDown(KeyCode.S))
+        {
+            isWaiting = true;
+        }
+        if(Input.GetKeyUp(KeyCode.S))
+        {
+            isWaiting = false;
+        }
+
     }
 
     void Pause()
@@ -112,7 +122,6 @@ public class PlayerController : MonoBehaviour
                 currentIndex = (currentIndex == 0) ? waypoints.Length - 1 : currentIndex - 1;
             }
         }
-
         else
         {
             if((!inReverse && currentIndex + 1 >= waypoints.Length) || (inReverse && currentIndex == 0))
