@@ -25,6 +25,9 @@ public class Photo
     public bool LoadImage()
     {
         // Load screenshot file at path.
+        Image = Resources.Load<Texture2D>(Path);
+        if (Image != null)
+            return true;
         // Return false if this fails for some reason (ex: file does not exist)
         return false;
     }

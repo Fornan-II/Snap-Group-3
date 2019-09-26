@@ -16,6 +16,8 @@ public class SnapShot : MonoBehaviour
 
     public new Vector3 collider;
 
+    List<CharacterInformation.Character> characters;
+
     void Start()
     {
         //Use this to ensure that the Gizmos are being drawn when in Play Mode.
@@ -24,7 +26,7 @@ public class SnapShot : MonoBehaviour
 
     public static string ScreenShotName(int width, int height)
     {
-        return string.Format("{0}/screenshots/screen_{1}x{2}_{3}.png",
+        return string.Format("{0}/Resources/screen_{1}x{2}_{3}.png",
                              Application.dataPath,
                              width, height,
                              System.DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss"));
@@ -34,24 +36,10 @@ public class SnapShot : MonoBehaviour
     {
         takeHiResShot = true;
     }
-
-    private void Update()
-    {
-
-    }
-
+    
     public bool CelebPictureCollisions()
     {
         Collider[] hitColliders = Physics.OverlapBox(new Vector3(transform.position.x, transform.position.y, transform.position.z + (collider.z / 1.25f)), collider, transform.localRotation, m_LayerMask);
-        int i = 0;
-        //Check when there is a new collider coming into contact with the box
-        while (i < hitColliders.Length)
-        {
-            //Output all of the collider names
-            Debug.Log("Hit : " + hitColliders[i].name + i);
-            //Increase the number of Colliders in the array
-            i++;
-        }
 
         foreach(Collider c in hitColliders)
         {
@@ -59,12 +47,26 @@ public class SnapShot : MonoBehaviour
             {
                 if (c.GetComponent<CelebVisible>().isVisibile == true)
                 {
-                    // check more variables from characterinfo
-                    return true;
+                    // check from characterinfo
+                    CharacterInformation instance = c.GetComponent<CharacterInformation>();
+                    if (instance == null)
+                        return false;
+                    if (instance.GetInfo().CharID < 0)
+                    {
+                        // get celeb name 
+                        string celebName = instance.GetInfo().Name; 
+                        Debug.Log("You photographed " + celebName);
+
+                        // add the character to the list of celebs in picture
+                        characters.Add(c.GetComponent<CharacterInformation.Character>());
+
+                        return true;
+                    }   
                 }
             }
         }
 
+        Debug.Log("no celeb found");
         return false;
     }
 
@@ -110,6 +112,9 @@ public class SnapShot : MonoBehaviour
 
             Debug.Log(string.Format("Took screenshot to: {0}", filename));
             takeHiResShot = false;
+
+            // register photo 
+            GameManager.Instance.RegisterPhoto(filename, characters);
         }
     }
 }
