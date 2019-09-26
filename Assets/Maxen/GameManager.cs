@@ -88,6 +88,7 @@ public class GameManager : MonoBehaviour
     {
         Photo newPhoto = new Photo(path, GameNumber);
         newPhoto.CelebritiesInPhoto = celebritiesInPhoto;
+        newPhoto.LoadImage();
 
         //Record index of PhotosThisRound with their associated celebrities
         CharacterInformation[] celebsInScene = new CharacterInformation[CelebTargets.Keys.Count];
