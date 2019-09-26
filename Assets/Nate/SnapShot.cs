@@ -13,6 +13,7 @@ public class SnapShot : MonoBehaviour
 
     bool m_Started;
     public LayerMask m_LayerMask;
+    public LayerMask playerLayer;
 
     public new Vector3 collider;
 
@@ -47,24 +48,32 @@ public class SnapShot : MonoBehaviour
         {
             if (c.GetComponent<CelebVisible>() != null)
             {
-                if (c.GetComponent<CelebVisible>().isVisibile == true)
+                Vector3 screenPoint = Camera.main.WorldToViewportPoint(c.transform.position);
+                bool onScreen = screenPoint.z > 0 && screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1;
+
+                if (onScreen == true)
                 {
-                    // check from characterinfo
-                    CharacterInformation instance = c.GetComponent<CharacterInformation>();
-                    if (instance == null)
-                        return false;
-                    if (instance.GetInfo().CharID >= 0)
+                    Debug.Log("celeb is in screen point");
+                    if (!Physics.Linecast(transform.position, c.transform.position, playerLayer))
                     {
-                        // get celeb name 
-                        string celebName = instance.GetInfo().Name;
-                        Debug.Log("You photographed " + celebName);
+                        //we see the celeb
+                        // check from characterinfo
+                        CharacterInformation instance = c.GetComponent<CharacterInformation>();
 
-                        // add the character to the list of celebs in picture
-                        characters.Add(instance.GetInfo());
+                        if (instance.GetInfo().CharID >= 0)
+                        {
+                            // get celeb name 
+                            string celebName = instance.GetInfo().Name;
+                            Debug.Log("You photographed " + celebName);
 
-                        value = true;
+                            // add the character to the list of celebs in picture
+                            characters.Add(instance.GetInfo());
+
+                            value = true;
+                        }
                     }
                 }
+                Debug.Log("Celeb is not in screen point");
             }
         }
         if (!value)
@@ -85,7 +94,7 @@ public class SnapShot : MonoBehaviour
 
     void LateUpdate()
     {
-        takeHiResShot |= Input.GetMouseButtonDown(0);
+        takeHiResShot |= Input.GetKeyDown(KeyCode.Space);
         if (takeHiResShot)
         {
 

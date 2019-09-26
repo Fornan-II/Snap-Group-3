@@ -29,6 +29,7 @@ public class Photo
         if (Image != null)
             return true;
         // Return false if this fails for some reason (ex: file does not exist)
+        Debug.Log("image not loaded");
         return false;
     }
 
