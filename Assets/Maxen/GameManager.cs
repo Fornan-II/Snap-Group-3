@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
@@ -17,6 +18,11 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
         }
+    }
+
+    private void OnDestroy()
+    {
+        Instance = null;
     }
     //
 
@@ -42,37 +48,141 @@ public class GameManager : MonoBehaviour
     }
 
     public List<Photo> PhotosThisRound = new List<Photo>();
-
-    [SerializeField] protected PlayerController _player;
+    
     [SerializeField] protected int NumberOfCelebsPerRound = 3;
-    [SerializeField] protected int CurrentTargetIndex = 0;
-    public List<CharacterInformation.Character> CelebTargets = new List<CharacterInformation.Character>();
+
+    //Temporarily predefining features in script while CharFeatures is simple
+    [SerializeField]
+    protected List<CharFeature> _AllCharFeatures = new List<CharFeature>()
+    {
+        new CharFeature() {BodyColor = Color.black},
+        new CharFeature() {BodyColor = Color.red},
+        new CharFeature() {BodyColor = Color.blue},
+        new CharFeature() {BodyColor = Color.green},
+        new CharFeature() {BodyColor = Color.green},
+        new CharFeature() {BodyColor = Color.magenta},
+        new CharFeature() {BodyColor = Color.yellow}
+    };
+
+    public List<CharFeature> AvailableCharFeatures;
+
+    //Character Key represents the actual celebrity
+    //int Value represents the index in PhotosThisRound. Index is -1 if no photo has been taken
+    public Dictionary<CharacterInformation, int> CelebTargets = new Dictionary<CharacterInformation, int>();
+
+    public UnityEvent<Photo[]> OnFinalPhotosSelected;
+
+    public CharacterInformation[] GetCelebCharacters()
+    {
+        CharacterInformation[] celebChars = new CharacterInformation[CelebTargets.Values.Count];
+        CelebTargets.Keys.CopyTo(celebChars, 0);
+        return celebChars;
+    }
+
+    private void Start()
+    {
+        InitGameRound();
+    }
 
     public void RegisterPhoto(string path, List<CharacterInformation.Character> celebritiesInPhoto)
     {
         Photo newPhoto = new Photo(path, GameNumber);
         newPhoto.CelebritiesInPhoto = celebritiesInPhoto;
+        
+        //Record index of PhotosThisRound with their associated celebrities
+        foreach(CharacterInformation celeb in CelebTargets.Keys)
+        {
+            CharacterInformation.Character celebChar = celeb.GetInfo();
+            if(newPhoto.CelebritiesInPhoto.Contains(celebChar))
+            {
+                CelebTargets[celeb] = newPhoto.CelebritiesInPhoto.IndexOf(celebChar);
+            }
+        }
         PhotosThisRound.Add(newPhoto);
-
-        //Need some way to track which waypoint each photo was taken at.
-        //For the purposes of only one photo per celeb per waypoint
-
-        //Most recent celeb photo is the one that is used
-        //Time limit to take pictures of celebs
     }
 
     public void InitGameRound()
     {
-        List<CharacterInformation.Character> allCelebs = new List<CharacterInformation.Character>(Database.GetAllCharacters());
+        //Reset important things.
+        AvailableCharFeatures = _AllCharFeatures;
         CelebTargets.Clear();
+        PhotosThisRound.Clear();
+
+        //Get CharacterInformations in scene so they can be assigned a random few celebrities.
+        List<CharacterInformation> allCharacters = new List<CharacterInformation>(FindObjectsOfType<CharacterInformation>());
+        //Grab a celebrities from the database
+        List<CharacterInformation.Character> allCelebs = new List<CharacterInformation.Character>(Database.GetAllCharacters());
+        
+        //Pick 3 random celebrities from the database and assign them
         for(int counter = 0; counter < NumberOfCelebsPerRound; counter++)
         {
-            int selectedIndex = Random.Range(0, allCelebs.Count);
-            CelebTargets.Add(allCelebs[selectedIndex]);
-            allCelebs.RemoveAt(selectedIndex);
+            //Select random celeb
+            int selectedCelebIndex = Random.Range(0, allCelebs.Count);
+            
+            //Select random character from scene to make become this celeb
+            int selectedCharacterIndex = Random.Range(0, allCharacters.Count);
+            allCharacters[selectedCharacterIndex].AssignCharacter(allCelebs[selectedCelebIndex]);
+            //Let selected char pick some identifying features
+            allCharacters[selectedCharacterIndex].GenerateFeatures();
+            
+            //record that this celeb is a target this round, then remove them from the pools of potentially picked celebs and characters.
+            CelebTargets.Add(allCharacters[selectedCharacterIndex], -1);
+            allCelebs.RemoveAt(selectedCelebIndex);
+            allCharacters.RemoveAt(selectedCharacterIndex);
         }
 
-        //Get player waypoints, and get their associated characters.
-        //Pick characters at that waypoint to assign celeb to
+        //Generate outfits for the rest of the characters
+        foreach(CharacterInformation character in allCharacters)
+        {
+            character.GenerateFeatures();
+        }
+
+        //Tell player to start moving? Maybe? If that's necessary?
+    }
+
+    public void EndGameRound()
+    {
+        //Get final photos
+        Photo[] finalPhotos = GetFinalCelebPhotos();
+        //Show 'em to the player
+        OnFinalPhotosSelected.Invoke(finalPhotos);
+        //Push photos to database
+        foreach(Photo p in finalPhotos)
+        {
+            Database.AddPhoto(p);
+        }
+        //Discard the rest... implement this later
+        //Go to main menu
+        StartCoroutine(WaitToReturnToMenu(1.0f));
+    }
+
+    protected Photo[] GetFinalCelebPhotos()
+    {
+        List<Photo> photos = new List<Photo>();
+        foreach(int photoIndex in CelebTargets.Values)
+        {
+            if(!photos.Contains(PhotosThisRound[photoIndex]))
+            {
+                photos.Add(PhotosThisRound[photoIndex]);
+            }
+        }
+
+        return photos.ToArray();
+    }
+
+    protected IEnumerator WaitToReturnToMenu(float acceptInputDelay = 0.0f)
+    {
+        //Wait for a short time before accepting input for this. Prevents accidental triggering right when game ends. If acceptInputDelay is 0, there is no delay.
+        for(float timer = 0.0f; timer < acceptInputDelay; timer += Time.deltaTime)
+        {
+            yield return null;
+        }
+
+        while (!Input.GetButtonDown("Fire1"))
+        {
+            yield return null;
+        }
+
+        MenuManagement.GoToMainMenu();
     }
 }
