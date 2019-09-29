@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System.IO;
+using UnityEditor;
 
 [System.Serializable]
 public class Photo
@@ -24,12 +26,15 @@ public class Photo
 
     public bool LoadImage()
     {
-        // Load screenshot file at path.
-        Image = Resources.Load<Texture2D>(Path);
+        // load image from file path
+        AssetDatabase.Refresh();
+        Image = Resources.Load(Path) as Texture2D;
+
         if (Image != null)
             return true;
+
         // Return false if this fails for some reason (ex: file does not exist)
-        Debug.Log("image not loaded");
+        Debug.Log("image not loaded: " + Path);
         return false;
     }
 

@@ -23,6 +23,9 @@ public class MouseLook : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetMouseButtonDown(0) && Cursor.visible)
+            Cursor.visible = false;
+
         // get rotation based on mouse position
         rotX += Input.GetAxis("Mouse X") * 4;
         rotY += Input.GetAxis("Mouse Y") * -4;
@@ -33,10 +36,11 @@ public class MouseLook : MonoBehaviour
         if (rotY < -90)
             rotY = -90;
 
-        // move
-        transform.eulerAngles = new Vector3(rotY, rotX, 0);
+        // Move
+        if (!Cursor.visible)
+            transform.eulerAngles = new Vector3(rotY, rotX, 0);
 
-
+        // Zoom
         if (Input.GetAxis("Mouse ScrollWheel") < 0)
         {
             myCamera.fieldOfView += zoomSpeed;
