@@ -13,19 +13,12 @@ public class LoadImage : MonoBehaviour
     [SerializeField]
     Transform trans;
 
-    bool done = false;
+    [SerializeField]
+    List<RawImage> rawImages;
 
-    public void Start()
-    {
-        screenShot = Resources.Load<Texture>("screen");
+    bool done = false;    
 
-        image.GetComponent<RawImage>().texture = screenShot;
-
-        Debug.Log("Image Position: " + image.rectTransform.localPosition);
-    }
-        
-
-    private void Update()
+    private void Start()
     {
         if (done == false)
         {
@@ -33,15 +26,17 @@ public class LoadImage : MonoBehaviour
 
             newPos.x += 100;
 
-            for (int i = 1; i < 4; ++i)
+            for (int i = 1; i < rawImages.Count; ++i)
             {
-                Debug.Log(newPos);
-
-                Instantiate(image, trans);
-
-                image.rectTransform.localPosition += newPos;
-
                 Debug.Log(i);
+
+                screenShot = Resources.Load<Texture>("screen " + i);
+
+                Debug.Log(screenShot);
+
+                image.GetComponent<RawImage>().texture = screenShot;
+
+                Debug.Log(image.GetComponent<RawImage>().texture = screenShot);
             }
             done = true;
         }
