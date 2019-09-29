@@ -627,11 +627,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CelebsToAdd:
   - CharID: 0
-    Name: Mark Markson
+    Name: Maxen McCoy
   - CharID: 1
-    Name: John Johanson
+    Name: Nathan Dalessio
   - CharID: 2
+    Name: Mathew Woods
+  - CharID: 3
     Name: Rob Robinson
+  - CharID: 4
+    Name: John Johanson
+  - CharID: 5
+    Name: noodle
+  - CharID: 6
+    Name: Mark Markson
   AddCelebs: 0
   PhotosToAdd:
   - Path: Assets/screenshots/screen_19

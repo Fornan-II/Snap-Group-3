@@ -147,9 +147,9 @@ public static class Database
             Debug.LogWarning("Error emptying celebrity table: " + ex.Message);
         }
     }
-#endif
-
+    
     [UnityEditor.MenuItem("Database/Close Connection")]
+#endif
     private static void EndConnection()
     {
         _activeConnection?.Close();
