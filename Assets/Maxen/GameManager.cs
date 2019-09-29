@@ -41,6 +41,7 @@ public class GameManager : MonoBehaviour
                 }
                 //And go one higher for this current round
                 _gameNumber++;
+                Debug.Log("GN: " + _gameNumber);
             }
 
             return _gameNumber;
@@ -87,7 +88,12 @@ public class GameManager : MonoBehaviour
     public void RegisterPhoto(string path, List<CharacterInformation.Character> celebritiesInPhoto)
     {
         Photo newPhoto = new Photo(path, GameNumber);
-        newPhoto.CelebritiesInPhoto = celebritiesInPhoto;
+        newPhoto.CelebritiesInPhoto = new List<CharacterInformation.Character>(celebritiesInPhoto);
+        foreach(CharacterInformation.Character c in celebritiesInPhoto)
+        {
+            Debug.Log("photo of " + c.Name);
+        }
+        newPhoto.RoundTakenDuring = _gameNumber;
         newPhoto.LoadImage();
 
         //Record index of PhotosThisRound with their associated celebrities

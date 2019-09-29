@@ -159,6 +159,7 @@ public class SnapShot : MonoBehaviour
             {
                 // register photo 
                 GameManager.Instance.RegisterPhoto(screenshotName, characters);
+                characters.Clear();
             }
 
             shutter.SetTrigger("clook");
