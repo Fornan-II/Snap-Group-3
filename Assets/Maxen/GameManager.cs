@@ -63,8 +63,13 @@ public class GameManager : MonoBehaviour
         new CharFeature() {BodyColor = Color.magenta},
         new CharFeature() {BodyColor = Color.yellow}
     };
-
     public List<CharFeature> AvailableCharFeatures;
+
+    [SerializeField] protected CharacterGen _characterGenerator;
+    public CharacterGen CharacterGenerator
+    {
+        get { return _characterGenerator; }
+    }
 
     //Character Key represents the actual celebrity
     //int Value represents the index in PhotosThisRound. Index is -1 if no photo has been taken
