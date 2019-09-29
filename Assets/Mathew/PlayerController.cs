@@ -17,9 +17,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     public bool inReverse = true;
 
+    public bool isWaiting = false;
+
     private Waypoints currentWaypoint;
     private int currentIndex = 0;
-    private bool isWaiting = false;
     private float speedStorage = 0;
 
     // Event stuff that fires off when a waypoint is reached.
@@ -39,6 +40,8 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log("isWaiting: " + isWaiting);
+
         if(currentWaypoint != null && !isWaiting)
         {
             MoveTowardsWaypoint();
@@ -126,11 +129,22 @@ public class PlayerController : MonoBehaviour
         {
             if((!inReverse && currentIndex + 1 >= waypoints.Length) || (inReverse && currentIndex == 0))
             {
-                inReverse = !inReverse;
+                //inReverse = !inReverse;
             }
 
             currentIndex = (!inReverse) ? currentIndex + 1 : currentIndex - 1;
         }
+        currentIndex = Mathf.Clamp(currentIndex, 0, waypoints.Length - 1);
         currentWaypoint = waypoints[currentIndex];
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if(other.tag == "End")
+        {
+            isWaiting = true;
+            speed = 0;
+            speedStorage = 0;
+        }
     }
 }
