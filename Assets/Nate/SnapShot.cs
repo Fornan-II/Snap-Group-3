@@ -20,12 +20,15 @@ public class SnapShot : MonoBehaviour
 
     public new Vector3 collider;
 
+    private Animator shutter;
+
     List<CharacterInformation.Character> characters = new List<CharacterInformation.Character>();
 
     void Start()
     {
         //Use this to ensure that the Gizmos are being drawn when in Play Mode.
         m_Started = true;
+        shutter = GetComponentInChildren<Animator>();
     }
 
     public static string ScreenShotPath(int width, int height)
@@ -126,6 +129,8 @@ public class SnapShot : MonoBehaviour
         takeHiResShot |= Input.GetKeyDown(KeyCode.Space);
         if (takeHiResShot)
         {
+            shutter.SetTrigger("click");
+
             RenderTexture rt = new RenderTexture(resWidth, resHeight, 24);
             GetComponent<Camera>().targetTexture = rt;
 
@@ -155,6 +160,8 @@ public class SnapShot : MonoBehaviour
                 // register photo 
                 GameManager.Instance.RegisterPhoto(screenshotName, characters);
             }
+
+            shutter.SetTrigger("clook");
         }
     }
 
