@@ -46,6 +46,16 @@ public class CharacterGen : ScriptableObject
     [SerializeField] protected Sprite[] PantsLegOptions;
     [SerializeField] protected Sprite[] ShoeOptions;
 
+    public BodyCollection[] AllBodyOptions { get { return BodyOptions; } }
+    public Sprite[] AllFaceOptions { get { return FacesOptions; } }
+    public Sprite[] AllHairOptions { get { return HairOptions; } }
+    public Sprite[] AllMasculineShirtBaseOptions { get { return MasculineShirtBaseOptions; } }
+    public Sprite[] AllFeminineShirtBaseOptions { get { return FeminineShirtBaseOptions; } }
+    public Sprite[] AllShirtSleeveOptions { get { return ShirtSleeveOptions; } }
+    public Sprite[] AllPantsWaistOptions { get { return PantsWaistOptions; } }
+    public Sprite[] AllPantsLegOptions { get { return PantsLegOptions; } }
+    public Sprite[] AllShoeOptions { get { return AllShoeOptions; } }
+
     public Appearance GenerateAppearance(int CharacterID)
     {
         System.Random rng;

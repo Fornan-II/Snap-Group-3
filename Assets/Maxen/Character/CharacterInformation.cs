@@ -23,6 +23,8 @@ public class CharacterInformation : MonoBehaviour
     [SerializeField] protected SpriteRenderer HeadRenderer;
     [SerializeField] protected SpriteRenderer ArmRendererLeft;
     [SerializeField] protected SpriteRenderer ArmRendererRight;
+    [SerializeField] protected SpriteRenderer HandRendererLeft;
+    [SerializeField] protected SpriteRenderer HandRendererRight;
     [SerializeField] protected SpriteRenderer NeckRenderer;
     [SerializeField] protected SpriteRenderer LegRendererLeft;
     [SerializeField] protected SpriteRenderer LegRendererRight;
@@ -77,11 +79,18 @@ public class CharacterInformation : MonoBehaviour
         LoadAppearance();
     }
 
-    protected void LoadAppearance()
+    public void SetAppearance(CharacterGen.Appearance app)
+    {
+        Appearance = app;
+    }
+
+    public void LoadAppearance()
     {
         HeadRenderer.sprite = Appearance.Body.Head;
         ArmRendererLeft.sprite = Appearance.Body.Arm;
         ArmRendererRight.sprite = Appearance.Body.Arm;
+        HandRendererLeft.sprite = Appearance.Body.Hand;
+        HandRendererRight.sprite = Appearance.Body.Hand;
         NeckRenderer.sprite = Appearance.Body.Neck;
         LegRendererLeft.sprite = Appearance.Body.Leg;
         LegRendererRight.sprite = Appearance.Body.Leg;
