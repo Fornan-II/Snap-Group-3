@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CharacterInformation : MonoBehaviour
 {
+    const string CelebLayerName = "Celeb";
+
     [System.Serializable]
     public struct Character
     {
@@ -36,6 +38,7 @@ public class CharacterInformation : MonoBehaviour
         if (_info.CharID >= 0)
         {
             GameManager.Instance.AvailableCharFeatures.RemoveAt(ranIndex);
+            gameObject.layer = LayerMask.NameToLayer(CelebLayerName);
         }
 
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
