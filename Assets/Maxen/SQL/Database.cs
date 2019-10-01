@@ -105,6 +105,12 @@ public static class Database
         Debug.Log(msg);
     }
 
+    [UnityEditor.MenuItem("Database/Log Database Path")]
+    private static void LogDatabasePath()
+    {
+        Debug.Log("Path to database: " + Application.persistentDataPath);
+    }
+
     [UnityEditor.MenuItem("Database/Dangerous/Drop Tables")]
     private static void DropTables()
     {

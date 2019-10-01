@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class SnapShot : MonoBehaviour
 {
+    private static string _screenshotDirectory;
+
     public int resWidth = 1080;
     public int resHeight = 1920;
 
@@ -24,6 +26,11 @@ public class SnapShot : MonoBehaviour
 
     List<CharacterInformation.Character> characters = new List<CharacterInformation.Character>();
 
+    private void Awake()
+    {
+        _screenshotDirectory = Application.persistentDataPath + "/Screenshots";
+    }
+
     void Start()
     {
         //Use this to ensure that the Gizmos are being drawn when in Play Mode.
@@ -33,16 +40,8 @@ public class SnapShot : MonoBehaviour
 
     public static string ScreenShotPath(int width, int height)
     {
-        return string.Format("{0}/Resources/screen_{1}x{2}_{3}.png",
-                             Application.dataPath,
-                             width, height,
-                             System.DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss"));
-    }
-    public static string ScreenShotName(int width, int height)
-    {
-        return string.Format("screen_{1}x{2}_{3}",
-                             Application.dataPath,
-                             width, height,
+        return string.Format("{0}/screen_{1}.png",
+                             _screenshotDirectory,
                              System.DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss"));
     }
 
@@ -147,9 +146,13 @@ public class SnapShot : MonoBehaviour
 
             byte[] bytes = screenShot.EncodeToPNG();
             string filename = ScreenShotPath(resWidth, resHeight);
+            if(!System.IO.Directory.Exists(_screenshotDirectory))
+            {
+                System.IO.Directory.CreateDirectory(_screenshotDirectory);
+            }
             System.IO.File.WriteAllBytes(filename, bytes);
 
-            string screenshotName = ScreenShotName(resWidth, resHeight);
+            //string screenshotName = ScreenShotName(resWidth, resHeight);
 
             Debug.Log(string.Format("Took screenshot to: {0}", filename));
             takeHiResShot = false;
@@ -158,7 +161,7 @@ public class SnapShot : MonoBehaviour
             if (CelebPictureCollisions() == true)
             {
                 // register photo 
-                GameManager.Instance.RegisterPhoto(screenshotName, characters);
+                GameManager.Instance.RegisterPhoto(filename, characters);
                 characters.Clear();
             }
 

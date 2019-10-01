@@ -41,7 +41,6 @@ public class GameManager : MonoBehaviour
                 }
                 //And go one higher for this current round
                 _gameNumber++;
-                Debug.Log("GN: " + _gameNumber);
             }
 
             return _gameNumber;
@@ -184,17 +183,25 @@ public class GameManager : MonoBehaviour
 
     protected Photo[] GetFinalCelebPhotos()
     {
+        string msg = "Getting Final Photos:\n{";
         List<Photo> photos = new List<Photo>();
         foreach(int photoIndex in CelebTargets.Values)
         {
+            msg += "\n\t" + photoIndex + " : ";
             if (0 <= photoIndex && photoIndex < PhotosThisRound.Count)
             {
                 if (!photos.Contains(PhotosThisRound[photoIndex]))
                 {
+                    msg += "{ adding }";
                     photos.Add(PhotosThisRound[photoIndex]);
+                }
+                else
+                {
+                    msg += "{ not found }";
                 }
             }
         }
+        Debug.Log(msg + "\n}");
 
         return photos.ToArray();
     }
