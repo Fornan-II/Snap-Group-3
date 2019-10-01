@@ -27,7 +27,7 @@ public class Photo
     public bool LoadImage()
     {
         // load image from file path
-        AssetDatabase.Refresh();
+        //AssetDatabase.Refresh();
         Image = Resources.Load(Path) as Texture2D;
 
         if (Image != null)
