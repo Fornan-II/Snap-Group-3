@@ -100,12 +100,19 @@ public class GameManager : MonoBehaviour
         CelebTargets.Keys.CopyTo(celebsInScene, 0);
         for(int i = 0; i < celebsInScene.Length; i++)
         {
+            Debug.Log("Checking to see if photographed: " + celebsInScene[i].name);
             CharacterInformation.Character celebChar = celebsInScene[i].GetInfo();
             if (newPhoto.CelebritiesInPhoto.Contains(celebChar))
             {
-                CelebTargets[celebsInScene[i]] = newPhoto.CelebritiesInPhoto.IndexOf(celebChar);
+                int celebPhotoIndex = PhotosThisRound.Count;
+                Debug.Log("Found " + celebsInScene[i].name + " at index " + celebPhotoIndex);
+                CelebTargets[celebsInScene[i]] = celebPhotoIndex;
                 //TEMP tell player that they took a picture of that celeb
                 IndicateCelebColors.SetCelebFound(i);
+            }
+            else
+            {
+                Debug.Log("Not found");
             }
         }
         PhotosThisRound.Add(newPhoto);
