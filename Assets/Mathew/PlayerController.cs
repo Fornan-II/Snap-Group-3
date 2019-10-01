@@ -17,6 +17,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     public bool inReverse = true;
 
+    [SerializeField]
+    public bool isPlayer = false;
+
     public bool isWaiting = false;
 
     private Waypoints currentWaypoint;
@@ -47,10 +50,14 @@ public class PlayerController : MonoBehaviour
             MoveTowardsWaypoint();
         }
 
-        if(Input.GetKeyDown(KeyCode.S))
+        if (isPlayer == true)
         {
-            isWaiting = true;
+            if (Input.GetKeyDown(KeyCode.S))
+            {
+                isWaiting = true;
+            }
         }
+
         if(Input.GetKeyUp(KeyCode.S))
         {
             isWaiting = false;

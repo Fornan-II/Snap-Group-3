@@ -114,9 +114,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resWidth: 2550
   resHeight: 3300
-  m_LayerMask:
+  image: {fileID: 0}
+  celebLayer:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 0
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 0
   collider: {x: 0, y: 0, z: 0}
 --- !u!1 &1253833910686742905
 GameObject:
@@ -165,6 +169,33 @@ MonoBehaviour:
   waypoints:
   - {fileID: 0}
   - {fileID: 0}
-  speed: 2
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  speed: 7
   isCircular: 0
   inReverse: 0
+  isPlayer: 1
+  isWaiting: 0

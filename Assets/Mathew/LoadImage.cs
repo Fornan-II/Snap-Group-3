@@ -19,8 +19,6 @@ public class LoadImage : MonoBehaviour
     {
         if (done == false)
         {
-            Vector3 newPos = image.rectTransform.localPosition;
-
             for (int i = 0; i < rawImages.Count; ++i)
             {
                 screenShot = Resources.Load<Texture>("screen " + i);
