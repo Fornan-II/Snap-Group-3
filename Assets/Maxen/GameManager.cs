@@ -41,7 +41,6 @@ public class GameManager : MonoBehaviour
                 }
                 //And go one higher for this current round
                 _gameNumber++;
-                Debug.Log("GN: " + _gameNumber);
             }
 
             return _gameNumber;
@@ -101,12 +100,19 @@ public class GameManager : MonoBehaviour
         CelebTargets.Keys.CopyTo(celebsInScene, 0);
         for(int i = 0; i < celebsInScene.Length; i++)
         {
+            Debug.Log("Checking to see if photographed: " + celebsInScene[i].name);
             CharacterInformation.Character celebChar = celebsInScene[i].GetInfo();
             if (newPhoto.CelebritiesInPhoto.Contains(celebChar))
             {
-                CelebTargets[celebsInScene[i]] = newPhoto.CelebritiesInPhoto.IndexOf(celebChar);
+                int celebPhotoIndex = PhotosThisRound.Count;
+                Debug.Log("Found " + celebsInScene[i].name + " at index " + celebPhotoIndex);
+                CelebTargets[celebsInScene[i]] = celebPhotoIndex;
                 //TEMP tell player that they took a picture of that celeb
                 IndicateCelebColors.SetCelebFound(i);
+            }
+            else
+            {
+                Debug.Log("Not found");
             }
         }
         PhotosThisRound.Add(newPhoto);
@@ -184,17 +190,25 @@ public class GameManager : MonoBehaviour
 
     protected Photo[] GetFinalCelebPhotos()
     {
+        string msg = "Getting Final Photos:\n{";
         List<Photo> photos = new List<Photo>();
         foreach(int photoIndex in CelebTargets.Values)
         {
+            msg += "\n\t" + photoIndex + " : ";
             if (0 <= photoIndex && photoIndex < PhotosThisRound.Count)
             {
                 if (!photos.Contains(PhotosThisRound[photoIndex]))
                 {
+                    msg += "{ adding }";
                     photos.Add(PhotosThisRound[photoIndex]);
+                }
+                else
+                {
+                    msg += "{ not found }";
                 }
             }
         }
+        Debug.Log(msg + "\n}");
 
         return photos.ToArray();
     }

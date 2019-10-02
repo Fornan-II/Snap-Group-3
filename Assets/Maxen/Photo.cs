@@ -27,10 +27,21 @@ public class Photo
     public bool LoadImage()
     {
         // load image from file path
-        AssetDatabase.Refresh();
-        Image = Resources.Load(Path) as Texture2D;
+        //AssetDatabase.Refresh();
+        //Image = Resources.Load(Path) as Texture2D;
 
-        if (Image != null)
+        Image = null;
+
+        bool successfulLoading = false;
+
+        if(File.Exists(Path))
+        {
+            byte[] fileData = File.ReadAllBytes(Path);
+            Image = new Texture2D(2, 2);
+            successfulLoading = Image.LoadImage(fileData);
+        }
+
+        if (successfulLoading)
             return true;
 
         // Return false if this fails for some reason (ex: file does not exist)
