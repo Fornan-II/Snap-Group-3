@@ -46,7 +46,6 @@ public class DEBUG_CharSpawner : MonoBehaviour
                 offset += deltaPosition;
                 baseAppearance.Body = body;
                 ch.SetAppearance(baseAppearance);
-                ch.LoadAppearance();
                 CreatedCharacters.Push(ch);
             }
         }
@@ -62,7 +61,6 @@ public class DEBUG_CharSpawner : MonoBehaviour
                             offset += deltaPosition;
                             baseAppearance.Hair = sp;
                             ch.SetAppearance(baseAppearance);
-                            ch.LoadAppearance();
                             CreatedCharacters.Push(ch);
                         }
                         break;
@@ -75,7 +73,6 @@ public class DEBUG_CharSpawner : MonoBehaviour
                             offset += deltaPosition;
                             baseAppearance.Face = sp;
                             ch.SetAppearance(baseAppearance);
-                            ch.LoadAppearance();
                             CreatedCharacters.Push(ch);
                         }
                         break;
@@ -90,7 +87,6 @@ public class DEBUG_CharSpawner : MonoBehaviour
                             offset += deltaPosition;
                             baseAppearance.Shirt.Base = sp;
                             ch.SetAppearance(baseAppearance);
-                            ch.LoadAppearance();
                             CreatedCharacters.Push(ch);
                         }
                         break;
@@ -103,7 +99,6 @@ public class DEBUG_CharSpawner : MonoBehaviour
                             offset += deltaPosition;
                             baseAppearance.Shirt.Limb = sp;
                             ch.SetAppearance(baseAppearance);
-                            ch.LoadAppearance();
                             CreatedCharacters.Push(ch);
                         }
                         break;
@@ -116,7 +111,6 @@ public class DEBUG_CharSpawner : MonoBehaviour
                             offset += deltaPosition;
                             baseAppearance.Pants.Base = sp;
                             ch.SetAppearance(baseAppearance);
-                            ch.LoadAppearance();
                             CreatedCharacters.Push(ch);
                         }
                         break;
@@ -129,7 +123,6 @@ public class DEBUG_CharSpawner : MonoBehaviour
                             offset += deltaPosition;
                             baseAppearance.Pants.Limb = sp;
                             ch.SetAppearance(baseAppearance);
-                            ch.LoadAppearance();
                             CreatedCharacters.Push(ch);
                         }
                         break;
@@ -142,7 +135,6 @@ public class DEBUG_CharSpawner : MonoBehaviour
                             offset += deltaPosition;
                             baseAppearance.Shoes = sp;
                             ch.SetAppearance(baseAppearance);
-                            ch.LoadAppearance();
                             CreatedCharacters.Push(ch);
                         }
                         break;

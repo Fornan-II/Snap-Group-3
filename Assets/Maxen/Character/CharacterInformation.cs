@@ -85,9 +85,10 @@ public class CharacterInformation : MonoBehaviour
     public void SetAppearance(CharacterGen.Appearance app)
     {
         Appearance = app;
+        LoadAppearance();
     }
 
-    public void LoadAppearance()
+    private void LoadAppearance()
     {
         HeadRenderer.sprite = Appearance.Body.Head;
         ArmRendererLeft.sprite = Appearance.Body.Arm;
