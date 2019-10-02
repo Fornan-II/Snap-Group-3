@@ -18,6 +18,8 @@ public class MoneyManager : MonoBehaviour
 
     public void AddMoney(Photo[] photoArray)
     {
+        
+
         int numPicsToSell = photoArray.Length;
         StartCoroutine(AddMoneyAnim(numPicsToSell));
     }
