@@ -6,7 +6,7 @@ using Mono.Data.Sqlite;
 
 public static class Database
 {
-    private const string DBPath = "Assets/Maxen/SQL/papparaziDatabase.db";
+    private static string DBPath = Application.persistentDataPath + "/papparaziDatabase.db"; //"Assets/Maxen/SQL/papparaziDatabase.db";
     private static SqliteConnection _activeConnection;
     
     private static SqliteConnection CreateConnection()
@@ -16,10 +16,34 @@ public static class Database
         try
         {
             connection.Open();
+
+            SqliteCommand command;
+            command = connection.CreateCommand();
+            command.CommandText = "CREATE TABLE IF NOT EXISTS Celebrities(celeb_id INT, name VARCHAR(20), UNIQUE(celeb_id))";
+            command.ExecuteNonQuery();
+            command.CommandText = "CREATE TABLE IF NOT EXISTS Photos(img_path VARCHAR(20), celeb_id INT, round_number INT)";
+            command.ExecuteNonQuery();
+            command.CommandText = "INSERT OR IGNORE INTO Celebrities(celeb_id, name) VALUES(0, 'Bob Bobson')";
+            command.ExecuteNonQuery();
+            command.CommandText = "INSERT OR IGNORE INTO Celebrities(celeb_id, name) VALUES(1, 'Maxen McCoy')";
+            command.ExecuteNonQuery();
+            command.CommandText = "INSERT OR IGNORE INTO Celebrities(celeb_id, name) VALUES(2, 'Nathan Dalessio')";
+            command.ExecuteNonQuery();
+            command.CommandText = "INSERT OR IGNORE INTO Celebrities(celeb_id, name) VALUES(3, 'Mathew Woods')";
+            command.ExecuteNonQuery();
+            command.CommandText = "INSERT OR IGNORE INTO Celebrities(celeb_id, name) VALUES(4, 'Rob Robinson')";
+            command.ExecuteNonQuery();
+            command.CommandText = "INSERT OR IGNORE INTO Celebrities(celeb_id, name) VALUES(5, 'John Johanson')";
+            command.ExecuteNonQuery();
+            command.CommandText = "INSERT OR IGNORE INTO Celebrities(celeb_id, name) VALUES(6, 'noodle')";
+            command.ExecuteNonQuery();
+            command.CommandText = "INSERT OR IGNORE INTO Celebrities(celeb_id, name) VALUES(7, 'Mark Markson')";
+            command.ExecuteNonQuery();
+
         }
         catch(Exception ex)
         {
-            Debug.LogWarning("Error creating connection: " + ex.Message);
+            Debug.LogWarning("Error creating connection: " + ex.Message + " {\n" + ex.StackTrace + "\n}");
         }
 
         return connection;
@@ -81,8 +105,14 @@ public static class Database
         Debug.Log(msg);
     }
 
-    [UnityEditor.MenuItem("Database/Dangerous/Drop Database")]
-    private static void DropDataBase()
+    [UnityEditor.MenuItem("Database/Log Database Path")]
+    private static void LogDatabasePath()
+    {
+        Debug.Log("Path to database: " + Application.persistentDataPath);
+    }
+
+    [UnityEditor.MenuItem("Database/Dangerous/Drop Tables")]
+    private static void DropTables()
     {
         if (_activeConnection == null)
         {
@@ -93,12 +123,14 @@ public static class Database
         {
             SqliteCommand command;
             command = _activeConnection.CreateCommand();
-            command.CommandText = "DROP DATABASE";
+            command.CommandText = "DROP TABLE Celebrities";
+            command.ExecuteNonQuery();
+            command.CommandText = "DROP TABLE Photos";
             command.ExecuteNonQuery();
 
             EndConnection();
 
-            Debug.Log("Database dropped");
+            Debug.Log("Tables dropped");
         }
         catch (Exception ex)
         {
