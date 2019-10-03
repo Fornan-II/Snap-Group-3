@@ -29,11 +29,37 @@ public class CharacterGen : ScriptableObject
 
         public Sprite Hair;
         public Sprite Face;
+        public Sprite Eyebrows;
 
         public LimbedClothing Shirt;
         public LimbedClothing Pants;
 
         public Sprite Shoes;
+
+        public int CompareTo(Appearance other)
+        {
+            int similarity = 0;
+            if (Body.Arm == other.Body.Arm)
+                similarity++;
+            if (Hair == other.Hair)
+                similarity++;
+            if (Face == other.Face)
+                similarity++;
+            if (Shirt.Base == other.Shirt.Base)
+                similarity++;
+            if (Shirt.Limb == other.Shirt.Limb)
+                similarity++;
+            if (Shirt.Col == other.Shirt.Col)
+                similarity++;
+            if (Pants.Base == other.Pants.Base)
+                similarity++;
+            if (Pants.Limb == other.Pants.Limb)
+                similarity++;
+            if (Shoes == other.Shoes)
+                similarity++;
+
+            return similarity;
+        }
     }
 
     [SerializeField] protected BodyCollection[] BodyOptions;

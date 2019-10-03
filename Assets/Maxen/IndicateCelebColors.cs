@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class IndicateCelebColors : MonoBehaviour
 {
-    public Image[] CelebColorIndicator;
+    public CharUI[] CelebIndicator;
     public Image[] CelebConfirmationIndicator;
 
     private static IndicateCelebColors Instance;
@@ -20,9 +20,9 @@ public class IndicateCelebColors : MonoBehaviour
         Instance = null;
     }
 
-    public static void SetCelebColor(int CelebNumber, Color CelebColor)
+    public static void SetCelebAppearance(int CelebNumber, CharacterGen.Appearance CelebAppearance)
     {
-        Instance.CelebColorIndicator[CelebNumber].color = CelebColor;
+        Instance.CelebIndicator[CelebNumber].SetAppearance(CelebAppearance);
     }
 
     public static void SetCelebFound(int CelebNumber)
