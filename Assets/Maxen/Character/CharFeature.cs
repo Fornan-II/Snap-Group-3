@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class CharFeature// : MonoBehaviour
+public class CharFeature
 {
-    //Temp way this is handled
     public Color BodyColor;
 }

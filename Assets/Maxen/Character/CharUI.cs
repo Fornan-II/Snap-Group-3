@@ -1,27 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class CharacterInformation : MonoBehaviour
+public class CharUI : MonoBehaviour
 {
-    const string CelebLayerName = "Celeb";
-
-    [System.Serializable]
-    public struct Character
-    {
-        public int CharID;
-        public string Name;
-
-        public static Character Empty = new Character { CharID = -1, Name = "Random" };
-    }
-
-    protected Character _info = Character.Empty;
-
-    public CharacterGen.Appearance Appearance
-    {
-        get;
-        protected set;
-    }
     [SerializeField] protected SpriteRenderer HeadRenderer;
     [SerializeField] protected SpriteRenderer ArmRendererLeft;
     [SerializeField] protected SpriteRenderer ArmRendererRight;
@@ -41,51 +24,7 @@ public class CharacterInformation : MonoBehaviour
     [SerializeField] protected SpriteRenderer ShoesRendererLeft;
     [SerializeField] protected SpriteRenderer ShoesRendererRight;
 
-    public Character GetInfo()
-    {
-        //return Character.Empty;
-        return _info;
-    }
-    
-    public void AssignCharacter(Character newChar)
-    {
-        _info = newChar;
-
-        if(_info.CharID >= 0)
-        {
-            gameObject.layer = LayerMask.NameToLayer(CelebLayerName);
-        }
-    }
-
-    public CharacterGen.Appearance GenerateFeatures()
-    {
-        //New generation
-        bool isSimilar;
-        do
-        {
-            isSimilar = false;
-            Appearance = GameManager.Instance.CharacterGenerator.GenerateAppearance(_info.CharID);
-            foreach(CharacterGen.Appearance app in GameManager.Instance.ReservedAppearances)
-            {
-                if(Appearance.CompareTo(app) > GameManager.Instance.SimilarityMaximum)
-                {
-                    isSimilar = true;
-                }
-            }
-        } while (isSimilar);
-
-        LoadAppearance();
-
-        return Appearance;
-    }
-
-    public void SetAppearance(CharacterGen.Appearance app)
-    {
-        Appearance = app;
-        LoadAppearance();
-    }
-
-    private void LoadAppearance()
+    public void SetAppearance(CharacterGen.Appearance Appearance)
     {
         HeadRenderer.sprite = Appearance.Body.Head;
         ArmRendererLeft.sprite = Appearance.Body.Arm;

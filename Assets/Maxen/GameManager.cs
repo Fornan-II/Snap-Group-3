@@ -51,20 +51,22 @@ public class GameManager : MonoBehaviour
     
     [SerializeField] protected int NumberOfCelebsPerRound = 3;
 
-    //Temporarily predefining features in script while CharFeatures is simple
-    [SerializeField]
-    protected List<CharFeature> _AllCharFeatures = new List<CharFeature>()
+    public List<CharacterGen.Appearance> ReservedAppearances
     {
-        new CharFeature() {BodyColor = Color.black},
-        new CharFeature() {BodyColor = Color.red},
-        new CharFeature() {BodyColor = Color.blue},
-        new CharFeature() {BodyColor = Color.green},
-        new CharFeature() {BodyColor = Color.gray},
-        new CharFeature() {BodyColor = Color.magenta},
-        new CharFeature() {BodyColor = Color.yellow}
-    };
+        get;
+        private set;
+    }
+    [SerializeField] protected int _similarityMaximum = 5;
+    public int SimilarityMaximum
+    {
+        get { return _similarityMaximum; }
+    }
 
-    public List<CharFeature> AvailableCharFeatures;
+    [SerializeField] protected CharacterGen _characterGenerator;
+    public CharacterGen CharacterGenerator
+    {
+        get { return _characterGenerator; }
+    }
 
     //Character Key represents the actual celebrity
     //int Value represents the index in PhotosThisRound. Index is -1 if no photo has been taken
@@ -115,7 +117,7 @@ public class GameManager : MonoBehaviour
         Cursor.visible = false;
 
         //Reset important things.
-        AvailableCharFeatures = _AllCharFeatures;
+        ReservedAppearances = new List<CharacterGen.Appearance>();
         CelebTargets.Clear();
         PhotosThisRound.Clear();
 
@@ -135,13 +137,9 @@ public class GameManager : MonoBehaviour
             allCharacters[selectedCharacterIndex].AssignCharacter(allCelebs[selectedCelebIndex]);
             //Debug.Log(allCharacters[selectedCelebIndex])
             //Let selected char pick some identifying features
-            allCharacters[selectedCharacterIndex].GenerateFeatures();
-            //TEMP assign char to UI
-            SpriteRenderer sr = allCharacters[selectedCharacterIndex].GetComponent<SpriteRenderer>();
-            if(sr)
-            {
-                IndicateCelebColors.SetCelebColor(counter, sr.color);
-            }
+            CharacterGen.Appearance appearance = allCharacters[selectedCharacterIndex].GenerateFeatures();
+            ReservedAppearances.Add(appearance);
+            IndicateCelebColors.SetCelebAppearance(counter, appearance);
             
             //record that this celeb is a target this round, then remove them from the pools of potentially picked celebs and characters.
             CelebTargets.Add(allCharacters[selectedCharacterIndex], -1);
