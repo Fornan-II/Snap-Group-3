@@ -12,9 +12,9 @@ public class MoneyManager : MonoBehaviour
     int money;
     int celebsPhotographed;
     public TextMeshProUGUI text;
-    public TextMeshProUGUI celeb0;
-    public TextMeshProUGUI celeb1;
-    public TextMeshProUGUI celeb2;
+    //public TextMeshProUGUI celeb0;
+    //public TextMeshProUGUI celeb1;
+    //public TextMeshProUGUI celeb2;
     public TextMeshProUGUI winState;
     public TextMeshProUGUI bonusPhotos;
 
@@ -23,8 +23,8 @@ public class MoneyManager : MonoBehaviour
     public GameObject check3;
 
     List<CharacterInformation.Character> celebritiesInPreviousPhoto;
-    [SerializeField]
-    TextMeshProUGUI[] celebNames;
+    //[SerializeField]
+    //TextMeshProUGUI[] celebNames;
     string[] tempNames;
 
     void Awake()
@@ -43,39 +43,39 @@ public class MoneyManager : MonoBehaviour
     {
         tempNames = new string[3];
 
-        celebNames = new TextMeshProUGUI[3];
-        celebNames[0] = celeb0;
-        celebNames[1] = celeb1;
-        celebNames[2] = celeb2;
+        //celebNames = new TextMeshProUGUI[3];
+        //celebNames[0] = celeb0;
+        //celebNames[1] = celeb1;
+        //celebNames[2] = celeb2;
 
         celebsPhotographed = 0;
     }
 
     public void AddMoney(Photo[] photos)
     {
-        for (int i = 0; i < photos.Length; i++)
-        {
-            if (photos[i].CelebritiesInPhoto.Count > 2)
-            {
-                for (int j = 0; j < photos[i].CelebritiesInPhoto.Count; j++)
-                {
-                    tempNames[j] = photos[i].CelebritiesInPhoto[j].Name;
-                }
-                celebNames[i].text = tempNames[0] + " & " + tempNames[1] + " & " + tempNames[2];
-            }
-            else if (photos[i].CelebritiesInPhoto.Count > 1)
-            {
-                for (int j = 0; j < photos[i].CelebritiesInPhoto.Count; j++)
-                {
-                    tempNames[j] = photos[i].CelebritiesInPhoto[j].Name;
-                }
-                celebNames[i].text = tempNames[0] + " & " + tempNames[1];
-            }
-            else
-            {
-                celebNames[i].text = photos[i].CelebritiesInPhoto[0].Name;
-            }
-        }
+        //for (int i = 0; i < photos.Length; i++)
+        //{
+        //    if (photos[i].CelebritiesInPhoto.Count > 2)
+        //    {
+        //        for (int j = 0; j < photos[i].CelebritiesInPhoto.Count; j++)
+        //        {
+        //            tempNames[j] = photos[i].CelebritiesInPhoto[j].Name;
+        //        }
+        //        celebNames[i].text = tempNames[0] + " & " + tempNames[1] + " & " + tempNames[2];
+        //    }
+        //    else if (photos[i].CelebritiesInPhoto.Count > 1)
+        //    {
+        //        for (int j = 0; j < photos[i].CelebritiesInPhoto.Count; j++)
+        //        {
+        //            tempNames[j] = photos[i].CelebritiesInPhoto[j].Name;
+        //        }
+        //        celebNames[i].text = tempNames[0] + " & " + tempNames[1];
+        //    }
+        //    else
+        //    {
+        //        celebNames[i].text = photos[i].CelebritiesInPhoto[0].Name;
+        //    }
+        //}
         // number of photos
         int numPicsToSell = GameManager.Instance.PhotosThisRound.Count;
 
