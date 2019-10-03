@@ -4,14 +4,16 @@ using UnityEngine;
 
 public class EndPanel : MonoBehaviour
 {
-    private void Start()
-    {
-        gameObject.SetActive(false);
-    }
+    [SerializeField] protected CelebPhotoDisplay[] displays;
 
     public void DisplayPhotos(Photo[] photos)
     {
         gameObject.SetActive(true);
-        MoneyManager.instance.AddMoney(photos);
+        MoneyManager.instance.AddMoney();
+
+        for(int i = 0; i < photos.Length && i < displays.Length; i++)
+        {
+            displays[i].SetPhoto(photos[i]);
+        }
     }
 }
