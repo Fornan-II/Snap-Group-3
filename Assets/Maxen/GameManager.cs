@@ -185,6 +185,7 @@ public class GameManager : MonoBehaviour
         }
         //Discard the rest... implement this later
         //Go to main menu
+
         StartCoroutine(WaitToReturnToMenu(1.0f));
     }
 

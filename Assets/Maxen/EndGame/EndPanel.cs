@@ -7,6 +7,6 @@ public class EndPanel : MonoBehaviour
     public void DisplayPhotos(Photo[] photos)
     {
         gameObject.SetActive(true);
-        MoneyManager.instance.AddMoney(photos);
+        MoneyManager.instance.AddMoney();
     }
 }

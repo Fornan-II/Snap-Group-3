@@ -2,25 +2,42 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System.IO;
+
 
 public class MoneyManager : MonoBehaviour
 {
     public static MoneyManager instance;
 
     public GameObject moneyText;
-    TextMeshPro text;
+    TextMeshProUGUI text;
     int money;
+    public Texture2D celebOnePic;
+    public Texture2D celebTwoPic;
+    public Texture2D celebthreePic;
+
+    List<CharacterInformation.Character> celebritiesInPreviousPhoto;
+
+    void Awake()
+    {
+        if (instance)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            instance = this;
+        }
+    }
 
     private void Start()
     {
-        text = moneyText.GetComponent<TextMeshPro>();
+        text = moneyText.GetComponent<TextMeshProUGUI>();
     }
 
-    public void AddMoney(Photo[] photoArray)
+    public void AddMoney()
     {
-        
-
-        int numPicsToSell = photoArray.Length;
+        int numPicsToSell = GameManager.Instance.PhotosThisRound.Count;
         StartCoroutine(AddMoneyAnim(numPicsToSell));
     }
 
